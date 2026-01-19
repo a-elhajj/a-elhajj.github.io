@@ -80,9 +80,12 @@
 				$body.removeClass('is-loading');
 			});
 
-		// Touch mode.
+			// Touch mode.
 			if (skel.vars.isMobile)
 				$body.addClass('is-touch');
+
+		// Open all links in a new tab
+		$('a').attr('target', '_blank');
 
 	});
 
