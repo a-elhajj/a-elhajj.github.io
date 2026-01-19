@@ -1,3 +1,4 @@
 # ignore all MS Word
 *.docx
 *.txt
+.DS_Store
