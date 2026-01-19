@@ -1,0 +1,196 @@
+---
+layout: default
+title: AI Art Portfolio
+---
+
+<style>
+    /* Container for the grid */
+    .portfolio-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 24px; /* Material 3 large spacing */
+        padding: 40px 0;
+    }
+
+    /* Material 3 Card Design */
+    .m3-card {
+        background-color: #f3f4f6; /* Surface Variant color */
+        border-radius: 24px; /* Material 3 large rounded corners */
+        overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.2, 0.0, 0, 1.0); /* Standard M3 easing */
+        border: 1px solid transparent;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Hover State: Elevation Level 2 */
+    .m3-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 8px 3px rgba(0,0,0,0.15), 0 1px 3px rgba(0,0,0,0.3);
+        background-color: #fff;
+        border-color: #e5e7eb;
+    }
+
+    /* Media Container */
+    .card-media {
+        width: 100%;
+        position: relative;
+        padding-top: 56.25%; /* 16:9 Aspect Ratio */
+        background: #000;
+    }
+
+    .card-media iframe, 
+    .card-media video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border: none;
+    }
+
+    /* Content Area */
+    .card-content {
+        padding: 24px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    /* Typography */
+    .client-tag {
+        font-family: "Raleway", sans-serif;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #f32853; /* Your accent color */
+        margin-bottom: 8px;
+        font-weight: 700;
+    }
+
+    .project-title {
+        font-family: "Raleway", sans-serif;
+        font-size: 1.5rem;
+        line-height: 1.2;
+        margin: 0 0 12px 0;
+        color: #1f1f1f; /* Material On-Surface */
+        font-weight: 700;
+    }
+
+    .project-desc {
+        font-size: 0.95rem;
+        color: #444746; /* Material On-Surface-Variant */
+        margin-bottom: 0;
+        line-height: 1.5;
+    }
+    
+    /* Responsive adjustments */
+    @media screen and (max-width: 736px) {
+        .portfolio-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<section id="ai-portfolio" class="wrapper">
+    <div class="container" style="max-width: 1200px;">
+        
+        <header class="major special">
+            <h2>AI Art Portfolio</h2>
+            <p>Selected works in generative video and motion graphics.</p>
+        </header>
+
+        <div class="portfolio-grid">
+
+            <article class="m3-card">
+                <div class="card-media">
+                    <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID_1" allowfullscreen></iframe>
+                </div>
+                <div class="card-content">
+                    <div>
+                        <div class="client-tag">Music Video</div>
+                        <h3 class="project-title">Artist Name - Track Title</h3>
+                        <p class="project-desc">Full AI-generated music video utilizing stable diffusion and frame interpolation techniques.</p>
+                    </div>
+                </div>
+            </article>
+
+            <article class="m3-card">
+                <div class="card-media">
+                    <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID_2" allowfullscreen></iframe>
+                </div>
+                <div class="card-content">
+                    <div>
+                        <div class="client-tag">Music Video</div>
+                        <h3 class="project-title">Artist Name - Track Title</h3>
+                        <p class="project-desc">Narrative-driven visualizer created with custom LoRAs.</p>
+                    </div>
+                </div>
+            </article>
+
+            <article class="m3-card">
+                <div class="card-media">
+                    <video controls poster="images/vuse-poster.jpg">
+                        <source src="videos/vuse_watermelon.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="card-content">
+                    <div>
+                        <div class="client-tag">Vuse</div>
+                        <h3 class="project-title">Watermelon Campaign</h3>
+                        <p class="project-desc">Commercial marketing asset featuring product integration with generative backgrounds.</p>
+                    </div>
+                </div>
+            </article>
+
+            <article class="m3-card">
+                <div class="card-media">
+                    <video controls poster="images/standard-poster.jpg">
+                        <source src="videos/standard_charter.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="card-content">
+                    <div>
+                        <div class="client-tag">Standard Charter</div>
+                        <h3 class="project-title">Corporate Motion</h3>
+                        <p class="project-desc">AI-enhanced internal communications video.</p>
+                    </div>
+                </div>
+            </article>
+
+            <article class="m3-card">
+                <div class="card-media">
+                    <video controls poster="images/zelda-poster.jpg">
+                        <source src="videos/zelda_fitzgerald.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="card-content">
+                    <div>
+                        <div class="client-tag">Creative Project</div>
+                        <h3 class="project-title">Zelda Fitzgerald</h3>
+                        <p class="project-desc">Historical recreation using archival footage and AI restoration.</p>
+                    </div>
+                </div>
+            </article>
+
+            <article class="m3-card">
+                <div class="card-media">
+                    <video controls poster="images/coke-poster.jpg">
+                        <source src="videos/coca_cola.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="card-content">
+                    <div>
+                        <div class="client-tag">Coca-Cola</div>
+                        <h3 class="project-title">Global Campaign</h3>
+                        <p class="project-desc">High-energy commercial spot exploring new visual styles.</p>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+    </div>
+</section>
