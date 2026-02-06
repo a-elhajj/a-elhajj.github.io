@@ -4,193 +4,265 @@ title: AI Art Portfolio
 ---
 
 <style>
-    /* Container for the grid */
-    .portfolio-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-        gap: 24px; /* Material 3 large spacing */
-        padding: 40px 0;
+    /* Reset & Dark Theme Overrides */
+    body {
+        background-color: #0b0b0b !important;
+        color: #f5f5f5 !important;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
     }
 
-    /* Material 3 Card Design */
-    .m3-card {
-        background-color: #f3f4f6; /* Surface Variant color */
-        border-radius: 24px; /* Material 3 large rounded corners */
-        overflow: hidden;
-        transition: all 0.3s cubic-bezier(0.2, 0.0, 0, 1.0); /* Standard M3 easing */
-        border: 1px solid transparent;
+    #banner {
+        display: none !important;
+    }
+
+    /* Override global container width for this page specifically */
+    body > .container {
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+    }
+
+    /* Force global header/footer to dark mode */
+    #header, #footer {
+        background-color: #0b0b0b !important;
+        border-color: #1f1f1f !important;
+        color: #f5f5f5 !important;
+    }
+
+    #header h1 a, #header nav > ul > li a, #footer .copyright li, #footer a {
+        color: #f5f5f5 !important;
+    }
+
+    /* Page-specific styles */
+    :root {
+        --ap-bg: #0b0b0b;
+        --ap-text: #f5f5f5;
+        --ap-muted: #888;
+        --ap-border: #1f1f1f;
+        --ap-card-bg: #111;
+        --ap-font: "Space Grotesk", sans-serif;
+    }
+
+    #ai-portfolio-page {
+        font-family: var(--ap-font);
+        background: var(--ap-bg);
+        color: var(--ap-text);
+        min-height: 100vh;
+        width: 100%;
+        box-sizing: border-box;
+        padding-top: 80px; /* Space for fixed header */
+    }
+
+    .ap-stream-container {
+        width: 100%;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 4vw;
+        box-sizing: border-box;
+    }
+
+    .ap-hero-title {
+        font-family: var(--ap-font);
+        font-size: clamp(3rem, 8vw, 6rem);
+        line-height: 0.9;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin: 4vh 0 8vh;
+        letter-spacing: -0.03em;
+        color: var(--ap-text);
+    }
+
+    .ap-grid {
         display: flex;
         flex-direction: column;
+        gap: 120px;
+        padding-bottom: 120px;
     }
 
-    /* Hover State: Elevation Level 2 */
-    .m3-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 4px 8px 3px rgba(0,0,0,0.15), 0 1px 3px rgba(0,0,0,0.3);
-        background-color: #fff;
-        border-color: #e5e7eb;
+    .ap-project {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        position: relative;
     }
 
-    /* Media Container */
-    .card-media {
+    .ap-project-media {
         width: 100%;
         position: relative;
-        padding-top: 56.25%; /* 16:9 Aspect Ratio */
-        background: #000;
+        /* Cinematic 16:9 ratio */
+        aspect-ratio: 16 / 9;
+        background: var(--ap-card-bg);
+        overflow: hidden;
+        border-radius: 4px;
     }
 
-    .card-media iframe, 
-    .card-media video {
-        position: absolute;
-        top: 0;
-        left: 0;
+    .ap-project-media video,
+    .ap-project-media iframe {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        display: block;
         border: none;
     }
 
-    /* Content Area */
-    .card-content {
-        padding: 24px;
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+    .ap-project-meta {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 24px;
+        align-items: baseline;
+        font-family: var(--ap-font);
+        border-top: 1px solid var(--ap-border);
+        padding-top: 24px;
     }
 
-    /* Typography */
-    .client-tag {
-        font-family: "Raleway", sans-serif;
-        font-size: 0.75rem;
+    .ap-project-number {
+        font-size: 0.9rem;
+        color: var(--ap-muted);
+        font-family: monospace;
+    }
+
+    .ap-project-info h3 {
+        font-size: clamp(1.5rem, 3vw, 2.5rem);
+        margin: 0 0 8px 0;
+        font-weight: 500;
+        color: var(--ap-text);
+        line-height: 1.1;
         text-transform: uppercase;
-        letter-spacing: 0.1em;
-        color: #f32853; /* Your accent color */
-        margin-bottom: 8px;
-        font-weight: 700;
     }
 
-    .project-title {
-        font-family: "Raleway", sans-serif;
-        font-size: 1.5rem;
-        line-height: 1.2;
-        margin: 0 0 12px 0;
-        color: #1f1f1f; /* Material On-Surface */
-        font-weight: 700;
+    .ap-project-info p {
+        margin: 0;
+        color: var(--ap-muted);
+        font-size: 1rem;
+        max-width: 600px;
     }
 
-    .project-desc {
-        font-size: 0.95rem;
-        color: #444746; /* Material On-Surface-Variant */
-        margin-bottom: 0;
-        line-height: 1.5;
-    }
-    
-    /* Responsive adjustments */
-    @media screen and (max-width: 736px) {
-        .portfolio-grid {
+    /* Mobile adjustments */
+    @media (max-width: 768px) {
+        .ap-hero-title {
+            font-size: 3.5rem;
+            margin: 40px 0;
+        }
+        
+        .ap-grid {
+            gap: 80px;
+        }
+
+        .ap-project-meta {
             grid-template-columns: 1fr;
+            gap: 12px;
+        }
+        
+        .ap-project-number {
+            display: none;
         }
     }
 </style>
 
-<section id="ai-portfolio" class="wrapper">
-    <div class="container" style="max-width: 1200px;">
+<section id="ai-portfolio-page">
+    <div class="ap-stream-container">
+        <h1 class="ap-hero-title">AI Art Portfolio</h1>
         
-        <header class="major special">
-            <h2>AI Art Portfolio</h2>
-            <p>Selected works in generative video and motion graphics.</p>
-        </header>
-
-        <div class="portfolio-grid">
-
-            <article class="m3-card">
-                <div class="card-media">
-                    <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID_1" allowfullscreen></iframe>
+        <div class="ap-grid">
+            <!-- 1. Coca-Cola -->
+            <article class="ap-project">
+                <div class="ap-project-media">
+                    <video controls preload="metadata" poster="images/coke-poster.jpg">
+                        <source src="videos/coca_cola.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                 </div>
-                <div class="card-content">
-                    <div>
-                        <div class="client-tag">Music Video</div>
-                        <h3 class="project-title">Artist Name - Track Title</h3>
-                        <p class="project-desc">Full AI-generated music video utilizing stable diffusion and frame interpolation techniques.</p>
+                <div class="ap-project-meta">
+                    <span class="ap-project-number">01</span>
+                    <div class="ap-project-info">
+                        <h3>Coca-Cola Videos</h3>
+                        <p>Commercial Video</p>
                     </div>
                 </div>
             </article>
 
-            <article class="m3-card">
-                <div class="card-media">
-                    <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID_2" allowfullscreen></iframe>
-                </div>
-                <div class="card-content">
-                    <div>
-                        <div class="client-tag">Music Video</div>
-                        <h3 class="project-title">Artist Name - Track Title</h3>
-                        <p class="project-desc">Narrative-driven visualizer created with custom LoRAs.</p>
-                    </div>
-                </div>
-            </article>
-
-            <article class="m3-card">
-                <div class="card-media">
-                    <video controls poster="images/vuse-poster.jpg">
+            <!-- 2. Vuse Watermelon -->
+            <article class="ap-project">
+                <div class="ap-project-media">
+                    <video controls preload="metadata" poster="images/vuse-poster.jpg">
                         <source src="videos/vuse_watermelon.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                 </div>
-                <div class="card-content">
-                    <div>
-                        <div class="client-tag">Vuse</div>
-                        <h3 class="project-title">Watermelon Campaign</h3>
-                        <p class="project-desc">Commercial marketing asset featuring product integration with generative backgrounds.</p>
+                <div class="ap-project-meta">
+                    <span class="ap-project-number">02</span>
+                    <div class="ap-project-info">
+                        <h3>Watermelon Campaign</h3>
+                        <p>Marketing Video</p>
                     </div>
                 </div>
             </article>
 
-            <article class="m3-card">
-                <div class="card-media">
-                    <video controls poster="images/standard-poster.jpg">
-                        <source src="videos/standard_charter.mp4" type="video/mp4">
+            <!-- 3. Standard Chartered -->
+            <article class="ap-project">
+                <div class="ap-project-media">
+                    <video controls preload="metadata" poster="images/standard-poster.jpg">
+                        <source src="videos/Standard Chartered Bank x Tatler Asia - Live Version.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
                     </video>
                 </div>
-                <div class="card-content">
-                    <div>
-                        <div class="client-tag">Standard Charter</div>
-                        <h3 class="project-title">Corporate Motion</h3>
-                        <p class="project-desc">AI-enhanced internal communications video.</p>
+                <div class="ap-project-meta">
+                    <span class="ap-project-number">03</span>
+                    <div class="ap-project-info">
+                        <h3>Standard Chartered Bank x Tatler Asia — Live Version</h3>
+                        <p>Corporate Video</p>
                     </div>
                 </div>
             </article>
 
-            <article class="m3-card">
-                <div class="card-media">
-                    <video controls poster="images/zelda-poster.jpg">
+            <!-- 4. Zelda Fitzgerald -->
+            <article class="ap-project">
+                <div class="ap-project-media">
+                    <video controls preload="metadata" poster="images/zelda-poster.jpg">
                         <source src="videos/zelda_fitzgerald.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
                     </video>
                 </div>
-                <div class="card-content">
-                    <div>
-                        <div class="client-tag">Creative Project</div>
-                        <h3 class="project-title">Zelda Fitzgerald</h3>
-                        <p class="project-desc">Historical recreation using archival footage and AI restoration.</p>
+                <div class="ap-project-meta">
+                    <span class="ap-project-number">04</span>
+                    <div class="ap-project-info">
+                        <h3>Zelda Fitzgerald AI Videos</h3>
+                        <p>Historical Recreation Video</p>
                     </div>
                 </div>
             </article>
 
-            <article class="m3-card">
-                <div class="card-media">
-                    <video controls poster="images/coke-poster.jpg">
-                        <source src="videos/coca_cola.mp4" type="video/mp4">
-                    </video>
+            <!-- 5. Box Car -->
+            <article class="ap-project">
+                <div class="ap-project-media">
+                    <iframe src="https://www.youtube.com/embed/yNg2Y0TJYRk" title="Box Car music video" allowfullscreen loading="lazy"></iframe>
                 </div>
-                <div class="card-content">
-                    <div>
-                        <div class="client-tag">Coca-Cola</div>
-                        <h3 class="project-title">Global Campaign</h3>
-                        <p class="project-desc">High-energy commercial spot exploring new visual styles.</p>
+                <div class="ap-project-meta">
+                    <span class="ap-project-number">05</span>
+                    <div class="ap-project-info">
+                        <h3>BOX CAR - TAKING OVER (feat. Nessly)</h3>
+                        <p>Music Video</p>
                     </div>
                 </div>
             </article>
 
+            <!-- 6. Jacob Sartorius -->
+            <article class="ap-project">
+                <div class="ap-project-media">
+                    <iframe src="https://www.youtube.com/embed/NnE2IBTqDA0" title="Jacob music video" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <div class="ap-project-meta">
+                    <span class="ap-project-number">06</span>
+                    <div class="ap-project-info">
+                        <h3>Jacob Sartorius - High</h3>
+                        <p>Music Video</p>
+                    </div>
+                </div>
+            </article>
         </div>
     </div>
 </section>
