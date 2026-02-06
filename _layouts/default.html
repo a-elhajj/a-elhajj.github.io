@@ -1,55 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{{ page.title }}</title>
-        <!-- link to main stylesheet -->
-    <script src="js/jquery.min.js"></script>
-    <script src="js/skel.min.js"></script>
-    <script src="js/skel-layers.min.js"></script>
-    <script src="js/init.js"></script>
-
-
-
-    <!-- MathJax options -->
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-          displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
-          processEscapes: true
-        }
-      });
-    </script>
-
-    <script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js">
-    </script>
-    <script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.min.js">
-    </script>
-
-
-    <!-- Google tracking -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-      ga('create', 'UA-65368616-1', 'auto');
-      ga('send', 'pageview');
-    </script>
-
-    <script type="text/javascript"
-        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-    </script>
-
-    <!-- <noscript> -->
         <link rel="stylesheet" type="text/css" href="/css/skel.css" />
         <link rel="stylesheet" type="text/css" href="/css/style.css" />
         <link rel="stylesheet" type="text/css" href="/css/style-xlarge.css">
-    <!-- </noscript> -->
+        <script src="js/jquery.min.js"></script>
+        <script src="js/skel.min.js"></script>
+        <script src="js/skel-layers.min.js"></script>
+        <script src="js/init.js"></script>
+        <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.min.js">
+        </script>
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+            tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+              displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+              processEscapes: true
+            }
+          });
+        </script>
+        <script type="text/javascript"
+            src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        </script>
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+          ga('create', 'UA-65368616-1', 'auto');
+          ga('send', 'pageview');
+        </script>
     </head>
     <body class="landing">
 
@@ -60,7 +44,7 @@
                 <ul>
                     <li><a href="/">Home</a></li>
                     <li><a href="/research.html">Research</a></li>
-                    <li><a href="/ai-portfolio.html">AI Art Portfolio</a></li>
+                    <li><a href="/ai-portfolio.html">Portfolio</a></li>
                     <li><a href="/docs/AlexanderEl-Hajj_Academic.pdf">CV</a></li>
                 </ul>
             </nav>
@@ -84,9 +68,9 @@
 <footer id="footer">
     <div class="container">
         <ul class="icons">
-            <li><a href="mailto:alex.elhajj88@gmail.com" class="icon fa-mail-reply"></a></li>
-            <li><a href="https://github.com/a-elhajj" class="icon fa-github"></a></li>
-            <li><a href="https://www.linkedin.com/in/alexander-el-hajj-36154386" class="icon fa-linkedin"></a></li>
+            <li><a href="mailto:alex.elhajj88@gmail.com" class="icon fa-mail-reply" rel="noopener noreferrer"></a></li>
+            <li><a href="https://github.com/a-elhajj" class="icon fa-github" rel="noopener noreferrer"></a></li>
+            <li><a href="https://www.linkedin.com/in/alexander-el-hajj-36154386" class="icon fa-linkedin" rel="noopener noreferrer"></a></li>
         </ul>
         <ul class="copyright">
             <li>Copyright &copy; Alexander El-Hajj</li>
@@ -96,11 +80,50 @@
     </div>
 </footer>
 
-        </body>
-    </html>
-
-<script type="text/javascript"
-    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
+        <script>
+          (function() {
+            'use strict';
+            try {
+              var anchors = document.querySelectorAll('a[href]');
+              var host = window.location.host;
+              anchors.forEach(function(anchor) {
+                var href = anchor.getAttribute('href');
+                if (!href) {
+                  return;
+                }
+                
+                if (anchor.hasAttribute('target')) {
+                  return;
+                }
+                
+                if (href.indexOf('/') === 0 || href.indexOf('./') === 0 || href.indexOf('../') === 0) {
+                  return;
+                }
+                
+                var isMailto = href.indexOf('mailto:') === 0;
+                var isHttp = href.indexOf('http://') === 0 || href.indexOf('https://') === 0;
+                
+                if (isMailto) {
+                  anchor.setAttribute('target', '_blank');
+                  anchor.setAttribute('rel', 'noopener noreferrer');
+                } else if (isHttp) {
+                  try {
+                    var linkHost = new URL(href).host;
+                    if (linkHost && linkHost !== host) {
+                      anchor.setAttribute('target', '_blank');
+                      anchor.setAttribute('rel', 'noopener noreferrer');
+                    }
+                  } catch (e) {
+                    // Invalid URL, skip
+                  }
+                }
+              });
+            } catch (e) {
+              // Fail silently
+            }
+          })();
+        </script>
+    </body>
+</html>
 
 
