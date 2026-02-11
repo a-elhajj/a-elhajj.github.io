@@ -1,4 +1,5 @@
 # ignore all MS Word
 *.docx
-*.txt
+!LICENSE.txt
 .DS_Store
+_site/

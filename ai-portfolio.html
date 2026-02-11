@@ -1,167 +1,9 @@
 ---
 layout: default
 title: AI Art Portfolio
+description: AI-generated commercial and music video portfolio featuring campaign and entertainment projects.
+keywords: AI art, video portfolio, Coca-Cola, Vuse, Standard Chartered, Zelda Fitzgerald, music video
 ---
-
-<style>
-    /* Reset & Dark Theme Overrides */
-    body {
-        background-color: #0b0b0b !important;
-        color: #f5f5f5 !important;
-        margin: 0;
-        padding: 0;
-        overflow-x: hidden;
-    }
-
-    #banner {
-        display: none !important;
-    }
-
-    /* Override global container width for this page specifically */
-    body > .container {
-        max-width: 100% !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        width: 100% !important;
-    }
-
-    /* Force global header/footer to dark mode */
-    #header, #footer {
-        background-color: #0b0b0b !important;
-        border-color: #1f1f1f !important;
-        color: #f5f5f5 !important;
-    }
-
-    #header h1 a, #header nav > ul > li a, #footer .copyright li, #footer a {
-        color: #f5f5f5 !important;
-    }
-
-    /* Page-specific styles */
-    :root {
-        --ap-bg: #0b0b0b;
-        --ap-text: #f5f5f5;
-        --ap-muted: #888;
-        --ap-border: #1f1f1f;
-        --ap-card-bg: #111;
-        --ap-font: "Space Grotesk", sans-serif;
-    }
-
-    #ai-portfolio-page {
-        font-family: var(--ap-font);
-        background: var(--ap-bg);
-        color: var(--ap-text);
-        min-height: 100vh;
-        width: 100%;
-        box-sizing: border-box;
-        padding-top: 80px; /* Space for fixed header */
-    }
-
-    .ap-stream-container {
-        width: 100%;
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 0 4vw;
-        box-sizing: border-box;
-    }
-
-    .ap-hero-title {
-        font-family: var(--ap-font);
-        font-size: clamp(3rem, 8vw, 6rem);
-        line-height: 0.9;
-        font-weight: 700;
-        text-transform: uppercase;
-        margin: 4vh 0 8vh;
-        letter-spacing: -0.03em;
-        color: var(--ap-text);
-    }
-
-    .ap-grid {
-        display: flex;
-        flex-direction: column;
-        gap: 120px;
-        padding-bottom: 120px;
-    }
-
-    .ap-project {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-        position: relative;
-    }
-
-    .ap-project-media {
-        width: 100%;
-        position: relative;
-        /* Cinematic 16:9 ratio */
-        aspect-ratio: 16 / 9;
-        background: var(--ap-card-bg);
-        overflow: hidden;
-        border-radius: 4px;
-    }
-
-    .ap-project-media video,
-    .ap-project-media iframe {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        border: none;
-    }
-
-    .ap-project-meta {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        gap: 24px;
-        align-items: baseline;
-        font-family: var(--ap-font);
-        border-top: 1px solid var(--ap-border);
-        padding-top: 24px;
-    }
-
-    .ap-project-number {
-        font-size: 0.9rem;
-        color: var(--ap-muted);
-        font-family: monospace;
-    }
-
-    .ap-project-info h3 {
-        font-size: clamp(1.5rem, 3vw, 2.5rem);
-        margin: 0 0 8px 0;
-        font-weight: 500;
-        color: var(--ap-text);
-        line-height: 1.1;
-        text-transform: uppercase;
-    }
-
-    .ap-project-info p {
-        margin: 0;
-        color: var(--ap-muted);
-        font-size: 1rem;
-        max-width: 600px;
-    }
-
-    /* Mobile adjustments */
-    @media (max-width: 768px) {
-        .ap-hero-title {
-            font-size: 3.5rem;
-            margin: 40px 0;
-        }
-        
-        .ap-grid {
-            gap: 80px;
-        }
-
-        .ap-project-meta {
-            grid-template-columns: 1fr;
-            gap: 12px;
-        }
-        
-        .ap-project-number {
-            display: none;
-        }
-    }
-</style>
 
 <section id="ai-portfolio-page">
     <div class="ap-stream-container">
@@ -171,10 +13,9 @@ title: AI Art Portfolio
             <!-- 1. Coca-Cola -->
             <article class="ap-project">
                 <div class="ap-project-media">
-                    <video controls preload="metadata" poster="images/coke-poster.jpg">
-                        <source src="videos/coca_cola.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
+                    <div class="ap-media-placeholder" role="img" aria-label="Coca-Cola campaign video coming soon">
+                        <span>Coca-Cola video coming soon</span>
+                    </div>
                 </div>
                 <div class="ap-project-meta">
                     <span class="ap-project-number">01</span>
@@ -188,10 +29,9 @@ title: AI Art Portfolio
             <!-- 2. Vuse Watermelon -->
             <article class="ap-project">
                 <div class="ap-project-media">
-                    <video controls preload="metadata" poster="images/vuse-poster.jpg">
-                        <source src="videos/vuse_watermelon.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
+                    <div class="ap-media-placeholder" role="img" aria-label="Vuse Watermelon campaign video coming soon">
+                        <span>Vuse Watermelon video coming soon</span>
+                    </div>
                 </div>
                 <div class="ap-project-meta">
                     <span class="ap-project-number">02</span>
@@ -205,7 +45,7 @@ title: AI Art Portfolio
             <!-- 3. Standard Chartered -->
             <article class="ap-project">
                 <div class="ap-project-media">
-                    <video controls preload="metadata" poster="images/standard-poster.jpg">
+                    <video controls preload="metadata" poster="images/website.png">
                         <source src="videos/Standard Chartered Bank x Tatler Asia - Live Version.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
@@ -222,10 +62,9 @@ title: AI Art Portfolio
             <!-- 4. Zelda Fitzgerald -->
             <article class="ap-project">
                 <div class="ap-project-media">
-                    <video controls preload="metadata" poster="images/zelda-poster.jpg">
-                        <source src="videos/zelda_fitzgerald.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
+                    <div class="ap-media-placeholder" role="img" aria-label="Zelda Fitzgerald AI video coming soon">
+                        <span>Zelda Fitzgerald video coming soon</span>
+                    </div>
                 </div>
                 <div class="ap-project-meta">
                     <span class="ap-project-number">04</span>
