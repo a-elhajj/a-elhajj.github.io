@@ -1,7 +1,6 @@
 name: Alexander El-Hajj
-markdown: kramdown
-...
-name: Alexander El-Hajj
 description: Making everything more efficient should make everybody happier. - Geoffrey Hinton
-url: https://aelhajj.github.io
-...
+url: https://a-elhajj.github.io
+lang: en
+google_analytics_id: ""
+markdown: kramdown
