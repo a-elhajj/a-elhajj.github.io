@@ -170,6 +170,16 @@
 
         content.appendChild(playerWrap);
 
+        /* ---- Context text box (between video and grid; updates per project) ---- */
+        var contextBox = document.createElement("div");
+        contextBox.className = "ap-context-box";
+
+        function setContextText(text) {
+            var txt = (text || section.description || "").trim();
+            contextBox.innerHTML = txt ? ("<p>" + txt.replace(/\n/g, "</p><p>") + "</p>") : "";
+        }
+        content.appendChild(contextBox);
+
         /* ---- Thumbnail grid ---- */
         var thumbGrid = document.createElement("div");
         thumbGrid.className = "ap-thumb-grid";
@@ -192,6 +202,9 @@
             if (pIdx < 0 || pIdx >= section.projects.length) return;
             activeProjectIdx = pIdx;
             var proj = section.projects[pIdx];
+
+            /* Update context box with project-specific description */
+            setContextText(proj.description);
 
             if (proj.youtube) {
                 mainVideo.pause();
