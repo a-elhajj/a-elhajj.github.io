@@ -4,3 +4,11 @@ url: https://a-elhajj.github.io
 lang: en
 google_analytics_id: ""
 markdown: kramdown
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - .gitignore
+  - .cursor
