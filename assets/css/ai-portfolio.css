@@ -1,164 +1,419 @@
-@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&display=swap");
 
-/* Reset & Dark Theme Overrides */
+/* ========================================================================
+   TOKENS
+   ======================================================================== */
+:root {
+    --ap-void:        #0f0f0f;
+    --ap-spine:       #181818;
+    --ap-stage:       #1e1e1e;
+    --ap-card:        #252525;
+    --ap-lift:        #383838;
+    --ap-text:        #f3f3f3;
+    --ap-dim:         #c7c7c7;
+    --ap-muted:       #a0a0a0;
+    --ap-rule:        #333333;
+    --ap-radius:      28px;
+    --ap-gap:         16px;
+    --ap-font:        "Space Grotesk", sans-serif;
+    --ap-ease:        cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* ========================================================================
+   THEME OVERRIDES  (break out of Jekyll chrome)
+   ======================================================================== */
 body {
-    background-color: #0b0b0b !important;
-    color: #f5f5f5 !important;
+    background: var(--ap-void) !important;
+    color: var(--ap-text) !important;
     margin: 0;
-    padding: 0;
-    overflow-x: hidden;
+    overflow: hidden;
 }
-
-#banner {
-    display: none !important;
-}
-
-body > .container {
+#banner { display: none !important; }
+#footer { display: none !important; }
+body > .container,
+.content-container {
+    margin: 0 !important;
     max-width: 100% !important;
     padding: 0 !important;
-    margin: 0 !important;
     width: 100% !important;
 }
-
-#header, #footer {
-    background-color: #0b0b0b !important;
-    border-color: #1f1f1f !important;
-    color: #f5f5f5 !important;
+#header {
+    background: var(--ap-void) !important;
+    border-color: var(--ap-rule) !important;
+    color: var(--ap-text) !important;
+    position: fixed !important;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+}
+#header h1 a,
+#header nav > ul > li a {
+    color: var(--ap-text) !important;
 }
 
-#header h1 a, #header nav > ul > li a, #footer .copyright li, #footer a {
-    color: #f5f5f5 !important;
-}
-
-:root {
-    --ap-bg: #0b0b0b;
-    --ap-text: #f5f5f5;
-    --ap-muted: #888;
-    --ap-border: #1f1f1f;
-    --ap-card-bg: #111;
-    --ap-font: "Space Grotesk", sans-serif;
-}
-
+/* ========================================================================
+   PAGE SHELL  — full viewport, pushed well below the fixed header
+   ======================================================================== */
 #ai-portfolio-page {
+    background: var(--ap-void);
+    box-sizing: border-box;
     font-family: var(--ap-font);
-    background: var(--ap-bg);
-    color: var(--ap-text);
+    height: 100vh;
     min-height: 100vh;
-    width: 100%;
-    box-sizing: border-box;
-    padding-top: 80px;
-}
-
-.ap-stream-container {
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 4vw;
-    box-sizing: border-box;
-}
-
-.ap-hero-title {
-    font-family: var(--ap-font);
-    font-size: clamp(3rem, 8vw, 6rem);
-    line-height: 0.9;
-    font-weight: 700;
-    text-transform: uppercase;
-    margin: 4vh 0 8vh;
-    letter-spacing: -0.03em;
-    color: var(--ap-text);
-}
-
-.ap-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 120px;
-    padding-bottom: 120px;
-}
-
-.ap-project {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    position: relative;
-}
-
-.ap-project-media {
-    width: 100%;
-    position: relative;
-    aspect-ratio: 16 / 9;
-    background: var(--ap-card-bg);
     overflow: hidden;
-    border-radius: 4px;
+    padding: 120px 8px 8px 8px;   /* 120px = header + ~2in clearance; minimal side padding for max width */
+    position: relative;
+    width: 100%;
 }
 
-.ap-project-media video,
-.ap-project-media iframe {
+/* ========================================================================
+   VIEWPORT  (flex row holding all 3 panels)
+   ======================================================================== */
+.ap-viewport {
+    display: flex;
+    gap: var(--ap-gap);
+    height: calc(100vh - 136px);   /* 120px top + 8px bottom padding */
+    min-height: 0;
     width: 100%;
+}
+
+/* ========================================================================
+   PANEL  (each accordion column)
+   Reference: Main Work ~70–80% width when active; spines ~10% each
+   ======================================================================== */
+.ap-panel {
+    background: var(--ap-spine);
+    border-radius: var(--ap-radius);
+    box-shadow: 0 8px 36px rgba(0,0,0,0.45);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+    min-width: 0;
+    overflow: hidden;
+    position: relative;
+    transition: flex-grow 600ms var(--ap-ease),
+                background-color 500ms var(--ap-ease);
+}
+/* First panel (Main Work) is largest by default before JS runs */
+.ap-panel:first-child {
+    flex-grow: 8;
+}
+.ap-panel.is-active {
+    background: var(--ap-stage);
+    cursor: default;
+    flex-grow: 8;
+}
+.ap-panel:not(.is-active) {
+    flex-grow: 1;
+}
+
+/* ========================================================================
+   SPINE TITLE  (vertical label when collapsed)
+   ======================================================================== */
+.ap-spine-title {
+    align-items: center;
+    color: var(--ap-text);
+    display: flex;
+    font-size: clamp(1rem, 2vw, 1.6rem);
+    font-weight: 300;
+    inset: 0;
+    justify-content: center;
+    letter-spacing: 0.14em;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    text-shadow: 0 2px 24px rgba(0,0,0,0.85);
+    text-transform: uppercase;
+    transform: rotate(180deg);
+    transition: opacity 350ms ease;
+    writing-mode: vertical-rl;
+    z-index: 6;
+}
+.ap-panel:not(.is-active) .ap-spine-title {
+    opacity: 1;
+}
+
+/* ========================================================================
+   SPINE PREVIEW  (small thumbnails when collapsed)
+   ======================================================================== */
+.ap-spine-preview {
+    display: grid;
+    gap: 6px;
+    grid-template-columns: 1fr 1fr;
+    inset: 12px;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: none;   /* when invisible, don't block video controls */
+    position: absolute;
+    transition: opacity 350ms ease;
+    z-index: 3;
+}
+.ap-panel:not(.is-active) .ap-spine-preview {
+    opacity: 1;
+    pointer-events: auto;   /* when visible, allow spine thumb clicks */
+}
+.ap-spine-thumb {
+    background: var(--ap-card);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font: inherit;
+    overflow: hidden;
+    padding: 0;
+    transition: transform 150ms ease, box-shadow 150ms ease;
+}
+.ap-spine-thumb:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+.ap-spine-thumb img,
+.ap-spine-thumb video {
+    display: block;
     height: 100%;
     object-fit: cover;
-    display: block;
-    border: none;
-}
-
-.ap-media-placeholder {
     width: 100%;
-    height: 100%;
+}
+
+/* ========================================================================
+   PANEL CONTENT  (visible when panel is active)
+   ======================================================================== */
+.ap-panel-content {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #151515 0%, #202020 100%);
-    color: var(--ap-text);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    font-size: 0.95rem;
+    flex: 1;
+    flex-direction: column;
+    gap: 14px;
+    opacity: 1;
+    overflow: hidden;
+    padding: 20px;
+    transition: opacity 300ms ease, visibility 300ms ease;
+    visibility: visible;
+}
+.ap-panel:not(.is-active) .ap-panel-content {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
 }
 
-.ap-project-meta {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 24px;
-    align-items: baseline;
-    font-family: var(--ap-font);
-    border-top: 1px solid var(--ap-border);
-    padding-top: 24px;
-}
-
-.ap-project-number {
-    font-size: 0.9rem;
-    color: var(--ap-muted);
-    font-family: monospace;
-}
-
-.ap-project-info h3 {
-    font-size: clamp(1.5rem, 3vw, 2.5rem);
-    margin: 0 0 8px 0;
+/* ========================================================================
+   PANEL HEADER
+   ======================================================================== */
+.ap-panel-header {
+    color: var(--ap-dim);
+    flex-shrink: 0;
+    font-size: 0.82rem;
     font-weight: 500;
-    color: var(--ap-text);
-    line-height: 1.1;
+    letter-spacing: 0.14em;
+    margin: 0;
     text-transform: uppercase;
 }
 
-.ap-project-info p {
-    margin: 0;
-    color: var(--ap-muted);
-    font-size: 1rem;
-    max-width: 600px;
+/* ========================================================================
+   PLAYER AREA  (large video / image)
+   ======================================================================== */
+.ap-player-wrap {
+    background: var(--ap-card);
+    border-radius: calc(var(--ap-radius) - 4px);
+    flex: 2 1 0;
+    min-height: 0;
+    overflow: hidden;
+    position: relative;
+}
+/* Portrait videos: taller player, extend down */
+.ap-player-wrap.is-portrait {
+    aspect-ratio: 9 / 16;
+    max-height: 75vh;
+}
+.ap-main-player {
+    display: block;
+    height: 100%;
+    object-fit: contain;   /* show full video (portrait or landscape) */
+    width: 100%;
+}
+.ap-main-player-img {
+    display: none;
+    height: 100%;
+    object-fit: contain;
+    width: 100%;
+}
+.ap-main-youtube {
+    border: none;
+    display: none;
+    height: 100%;
+    inset: 0;
+    position: absolute;
+    width: 100%;
+    z-index: 5;
 }
 
-@media (max-width: 768px) {
-    .ap-hero-title {
-        font-size: 3.5rem;
-        margin: 40px 0;
+/* ========================================================================
+   THUMBNAIL GRID
+   ======================================================================== */
+.ap-thumb-grid {
+    display: flex;
+    flex-shrink: 0;
+    flex-wrap: nowrap;
+    gap: 10px;
+    max-height: 28%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: var(--ap-rule) transparent;
+}
+.ap-thumb-grid::-webkit-scrollbar { width: 5px; }
+.ap-thumb-grid::-webkit-scrollbar-track { background: transparent; }
+.ap-thumb-grid::-webkit-scrollbar-thumb { background: var(--ap-rule); border-radius: 4px; }
+
+/* ========================================================================
+   THUMBNAIL CARD
+   ======================================================================== */
+.ap-thumb-card {
+    background: var(--ap-card);
+    border: 2px solid transparent;
+    border-radius: 12px;
+    color: inherit;
+    cursor: pointer;
+    flex: 0 0 120px;
+    font-family: inherit;
+    min-width: 0;
+    overflow: hidden;
+    padding: 0;
+    text-align: left;
+    transition: border-color 200ms ease,
+                transform 200ms ease,
+                box-shadow 200ms ease;
+}
+.ap-thumb-card:hover {
+    border-color: var(--ap-muted);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+}
+.ap-thumb-card.is-active {
+    border-color: var(--ap-text);
+}
+.ap-thumb-media {
+    aspect-ratio: 16 / 10;
+    background: var(--ap-spine);
+    overflow: hidden;
+}
+.ap-thumb-media video,
+.ap-thumb-media img {
+    display: block;
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+}
+.ap-thumb-info {
+    padding: 8px 10px 10px;
+}
+.ap-thumb-info strong {
+    color: var(--ap-text);
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.ap-thumb-info span {
+    color: var(--ap-muted);
+    display: block;
+    font-size: 0.64rem;
+    letter-spacing: 0.06em;
+    margin-top: 3px;
+    text-transform: uppercase;
+}
+
+/* ========================================================================
+   LIGHTBOX
+   ======================================================================== */
+.ap-lightbox {
+    background: rgba(15, 15, 15, 0.96);
+    border-radius: var(--ap-radius);
+    display: grid;
+    gap: 14px;
+    grid-template-rows: 1fr auto;
+    inset: 0;
+    opacity: 0;
+    padding: 20px;
+    pointer-events: none;
+    position: absolute;
+    transition: opacity 220ms ease;
+    z-index: 20;
+}
+.ap-lightbox.is-open { opacity: 1; pointer-events: auto; }
+.ap-lightbox-media {
+    align-items: center;
+    border-radius: calc(var(--ap-radius) - 8px);
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+.ap-lightbox-media img { max-height: 100%; max-width: 100%; object-fit: contain; }
+.ap-lightbox-foot { align-items: center; display: flex; justify-content: space-between; }
+.ap-lightbox-title { color: var(--ap-text); font-size: 0.9rem; letter-spacing: 0.06em; margin: 0; text-transform: uppercase; }
+.ap-close-btn {
+    background: var(--ap-lift);
+    border: 1px solid var(--ap-rule);
+    border-radius: 999px;
+    color: var(--ap-text);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    padding: 7px 16px;
+    text-transform: uppercase;
+}
+.ap-close-btn:hover { background: #4a4a4a; }
+
+/* ========================================================================
+   RESPONSIVE — TABLET
+   ======================================================================== */
+@media (max-width: 1024px) {
+    #ai-portfolio-page { padding-top: 64px; }
+    .ap-thumb-card { flex: 0 0 100px; }
+}
+
+/* ========================================================================
+   RESPONSIVE — MOBILE  (destroy accordion → vertical stack)
+   ======================================================================== */
+@media (max-width: 767px) {
+    body { overflow-y: auto; }
+    #ai-portfolio-page {
+        height: auto;
+        min-height: 100vh;
+        overflow: visible;
+        padding: 64px 10px 10px 10px;
     }
-    .ap-grid {
-        gap: 80px;
+    .ap-viewport { flex-direction: column; height: auto; }
+    .ap-panel {
+        flex-grow: 0 !important;
+        min-height: 72px;
+        transition: min-height 400ms var(--ap-ease), background-color 400ms var(--ap-ease);
     }
-    .ap-project-meta {
-        grid-template-columns: 1fr;
-        gap: 12px;
+    .ap-panel.is-active { min-height: 70vh; }
+    .ap-spine-title {
+        font-size: 1.1rem; padding: 22px 16px; position: relative;
+        transform: none; writing-mode: horizontal-tb;
     }
-    .ap-project-number {
-        display: none;
+    .ap-spine-preview { display: none; }
+    .ap-panel-content {
+        max-height: 0; opacity: 0; overflow: hidden; padding: 0 14px 14px;
+        transition: max-height 500ms var(--ap-ease), opacity 300ms ease; visibility: hidden;
+    }
+    .ap-panel.is-active .ap-panel-content {
+        max-height: 200vh; opacity: 1; overflow: auto; padding: 14px; visibility: visible;
+    }
+    .ap-panel.is-active .ap-spine-title { opacity: 0; height: 0; padding: 0; }
+    .ap-thumb-grid { max-height: none; }
+    .ap-thumb-card { flex: 0 0 90px; }
+}
+
+/* ========================================================================
+   ACCESSIBILITY
+   ======================================================================== */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
     }
 }

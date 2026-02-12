@@ -5,104 +5,51 @@ description: AI-generated commercial and music video portfolio featuring campaig
 keywords: AI art, video portfolio, Coca-Cola, Vuse, Standard Chartered, music video
 ---
 
-<section id="ai-portfolio-page">
-    <div class="ap-stream-container">
-        <h1 class="ap-hero-title">AI Art Portfolio</h1>
-        
-        <div class="ap-grid">
-            <!-- 1. Coca-Cola -->
-            <article class="ap-project">
-                <div class="ap-project-media">
-                    <div class="ap-media-placeholder" role="img" aria-label="Coca-Cola campaign video coming soon">
-                        <span>Coca-Cola video coming soon</span>
-                    </div>
-                </div>
-                <div class="ap-project-meta">
-                    <span class="ap-project-number">01</span>
-                    <div class="ap-project-info">
-                        <h3>Coca-Cola Videos</h3>
-                        <p>Commercial Video</p>
-                    </div>
-                </div>
-            </article>
-
-            <!-- 2. Vuse Watermelon -->
-            <article class="ap-project">
-                <div class="ap-project-media">
-                    <div class="ap-media-placeholder" role="img" aria-label="Vuse Watermelon campaign video coming soon">
-                        <span>Vuse Watermelon video coming soon</span>
-                    </div>
-                </div>
-                <div class="ap-project-meta">
-                    <span class="ap-project-number">02</span>
-                    <div class="ap-project-info">
-                        <h3>Watermelon Campaign</h3>
-                        <p>Marketing Video</p>
-                    </div>
-                </div>
-            </article>
-
-            <!-- 3. Standard Chartered -->
-            <article class="ap-project">
-                <div class="ap-project-media">
-                    <video controls preload="metadata">
-                        <source src="/assets/videos/Standard Chartered Bank x Tatler Asia - Live Version.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-                <div class="ap-project-meta">
-                    <span class="ap-project-number">03</span>
-                    <div class="ap-project-info">
-                        <h3>Standard Chartered Bank x Tatler Asia — Live Version</h3>
-                        <p>Corporate Video</p>
-                    </div>
-                </div>
-            </article>
-
-            <!-- 4. Historical Reenactment -->
-            <article class="ap-project">
-                <div class="ap-project-media">
-                    <video controls preload="metadata" onloadedmetadata="this.volume=0.25">
-                        <source src="/assets/videos/historical-reenactment.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-                <div class="ap-project-meta">
-                    <span class="ap-project-number">04</span>
-                    <div class="ap-project-info">
-                        <h3>Historical Reenactment</h3>
-                        <p>Historical reenactment for a private client</p>
-                    </div>
-                </div>
-            </article>
-
-            <!-- 5. Box Car -->
-            <article class="ap-project">
-                <div class="ap-project-media">
-                    <iframe src="https://www.youtube.com/embed/yNg2Y0TJYRk" title="Box Car music video" allowfullscreen loading="lazy"></iframe>
-                </div>
-                <div class="ap-project-meta">
-                    <span class="ap-project-number">05</span>
-                    <div class="ap-project-info">
-                        <h3>BOX CAR - TAKING OVER (feat. Nessly)</h3>
-                        <p>Music Video</p>
-                    </div>
-                </div>
-            </article>
-
-            <!-- 6. Jacob Sartorius -->
-            <article class="ap-project">
-                <div class="ap-project-media">
-                    <iframe src="https://www.youtube.com/embed/NnE2IBTqDA0" title="Jacob music video" allowfullscreen loading="lazy"></iframe>
-                </div>
-                <div class="ap-project-meta">
-                    <span class="ap-project-number">06</span>
-                    <div class="ap-project-info">
-                        <h3>Jacob Sartorius - High</h3>
-                        <p>Music Video</p>
-                    </div>
-                </div>
-            </article>
-        </div>
-    </div>
+<section id="ai-portfolio-page" aria-label="AI portfolio application">
+    <div class="ap-viewport" id="ap-viewport"></div>
+    <noscript>
+        <p style="color:#a0a0a0;padding:2rem;">Enable JavaScript to experience the cinematic portfolio.</p>
+    </noscript>
 </section>
+
+<script id="ap-portfolio-data" type="application/json">
+{
+  "portfolio": [
+    {
+      "id": "main_work",
+      "title": "Main Work",
+      "type": "deck",
+      "projects": [
+        { "title": "Vuze Apple",          "video": "/assets/videos/vuze-apple.mp4",      "poster": "/assets/videos/vuze-apple-poster.jpg", "subtitle": "Campaign Film" },
+        { "title": "Vuze Blueberry",      "video": "/assets/videos/vuze-blueberry.mp4",  "poster": "/assets/videos/vuze-blueberry-poster.jpg", "subtitle": "Campaign Film" },
+        { "title": "Coca-Cola III",       "video": "/assets/videos/superpop3.mp4",       "poster": "/assets/videos/superpop3-poster.jpg", "subtitle": "AI Commercial" },
+        { "title": "Standard Chartered",  "video": "/assets/videos/Standard Chartered Bank x Tatler Asia - Live Version.mp4", "poster": "/assets/videos/Standard_Chartered_Bank_x_Tatler_Asia_-_Live_Version-poster.jpg", "subtitle": "Corporate Film" },
+        { "title": "Historical Reenactment", "video": "/assets/videos/historical-reenactment.mp4", "poster": "/assets/videos/historical-reenactment-poster.jpg", "subtitle": "Private Client" },
+        { "title": "BOX CAR - TAKING OVER (feat. Nessly) [Official Music Video]", "youtube": "https://www.youtube.com/embed/yNg2Y0TJYRk", "subtitle": "Music Video" },
+        { "title": "Jacob Sartorius - High (Official Music Video)", "youtube": "https://www.youtube.com/embed/NnE2IBTqDA0", "subtitle": "Music Video" }
+      ]
+    },
+    {
+      "id": "contributing",
+      "title": "Contributing Work",
+      "type": "deck",
+      "projects": [
+        { "title": "Man City",    "video": "/assets/videos/mancity.mp4",      "poster": "/assets/videos/mancity-poster.jpg", "subtitle": "AI Video Loop" },
+        { "title": "Marea Reel",  "video": "/assets/videos/Marea Reel.mp4",   "poster": "/assets/videos/Marea_Reel-poster.jpg", "subtitle": "AI Video Loop" },
+        { "title": "Rumble Reel", "video": "/assets/videos/Rumble Reel.mp4",  "poster": "/assets/videos/Rumble_Reel-poster.jpg", "subtitle": "AI Video Loop" }
+      ]
+    },
+    {
+      "id": "experiments",
+      "title": "Creative Experiments",
+      "type": "grid",
+      "projects": [
+        { "title": "Editorial I",   "image": "/assets/videos/EditorialTEST_00004_.png" },
+        { "title": "Editorial II",  "image": "/assets/videos/EditorialTEST_00028_.png" },
+        { "title": "Editorial III", "image": "/assets/videos/EditorialTEST_00201_.png" },
+        { "title": "Editorial IV",  "image": "/assets/videos/EditorialTEST_00403_.png" }
+      ]
+    }
+  ]
+}
+</script>
