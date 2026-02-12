@@ -12,6 +12,7 @@
         <link rel="stylesheet" href="/assets/css/skel.css" />
         <link rel="stylesheet" href="/assets/css/style.css" />
         <link rel="stylesheet" href="/assets/css/style-xlarge.css" />
+        <link rel="stylesheet" href="/assets/css/pandemic-game.css" />
         <script src="/assets/js/jquery.min.js" defer></script>
         <script src="/assets/js/skel.min.js" defer></script>
         <script src="/assets/js/skel-layers.min.js" defer></script>
@@ -68,20 +69,63 @@
                 <p>Making everything more efficient should make everybody happier. - Geoffrey Hinton</p>
             </section>
 
-<section id="interests" class="wrapper style1">
+<section id="pandemic-game" class="wrapper style1">
   <div class="container 75%">
-    <div class="row 200%">
-      <div class="6u 12u$(medium)">
-        <header class="major special">
-            <h2>Research Focus</h2>
-            <p>Reinforcement Learning and Food Insecurity</p>
-        </header>
+    <header class="major special">
+      <h2>Pandemic Manager: AI Edition</h2>
+      <p>Learn optimal COVID-19 mitigation strategies from reinforcement learning research</p>
+    </header>
+    <div id="game-viewport" class="game-viewport">
+      <div id="game-title-screen" class="game-title-screen">
+        <h2>PANDEMIC MANAGER<br>Q-LEARNING EDITION</h2>
+        <p>Move between locations and make decisions. Survive as long as you can without getting infected. Mask and social distance at high-risk places.</p>
+        <button type="button" class="game-start-btn" id="game-start-btn">Start Game</button>
+      </div>
+      <div id="game-main" class="game-hidden">
+        <div id="game-topbar" class="game-topbar">
+          <span class="game-day" id="game-day">Day 1</span>
+          <span class="game-survival" id="game-survival">Days survived: 1</span>
+          <span class="game-agent-info" id="game-agent-info"></span>
+        </div>
+        <div id="game-overworld" class="game-overworld scene-overworld">
+          <div class="game-buildings">
+            <!-- Decorative Trees -->
+            <div class="game-tree" style="top: 10%; left: 10%;"></div>
+            <div class="game-tree" style="top: 20%; left: 5%;"></div>
+            <div class="game-tree" style="top: 80%; left: 85%;"></div>
+            <div class="game-tree" style="top: 70%; left: 90%;"></div>
+            <div class="game-tree" style="top: 5%; left: 80%;"></div>
+            
+            <div class="game-building home"><div class="label">HOME</div></div>
+            <div class="game-building work"><div class="label">WORK</div></div>
+            <div class="game-building school"><div class="label">SCHOOL</div></div>
+            <div class="game-building social"><div class="label">SOCIAL</div></div>
+            <div class="game-building hospital"><div class="label">HOSPITAL</div></div>
+          </div>
+          <div id="game-world" class="game-world">
+            <div id="game-character" class="game-character">
+              <div class="sprite-body"></div>
+            </div>
+            <div id="game-zone-home" class="game-zone" data-location="home" style="left:10%;top:50%;width:18%;height:30%;"></div>
+            <div id="game-zone-work" class="game-zone" data-location="work" style="left:45%;top:15%;width:20%;height:40%;"></div>
+            <div id="game-zone-school" class="game-zone" data-location="school" style="left:75%;top:18%;width:18%;height:35%;"></div>
+            <div id="game-zone-social" class="game-zone" data-location="social" style="left:72%;top:52%;width:22%;height:32%;"></div>
+            <div id="game-zone-hospital" class="game-zone" data-location="hospital" style="left:10%;top:15%;width:18%;height:25%;"></div>
+          </div>
+          <p class="game-move-hint" id="game-move-hint">Arrow keys to move • Enter to visit</p>
+        </div>
+        <div id="game-location-view" class="game-location-view game-hidden">
+          <button type="button" class="game-back-btn" id="game-back-btn">Back</button>
+          <div id="game-decision-container" class="game-decision-container"></div>
+        </div>
+      </div>
+      <div id="game-toast" class="game-toast game-hidden"></div>
+      <div id="game-end-container"></div>
     </div>
-    <div class="6u$ 12u$(medium)">
-<p>If you want to make good decisions from data, you need good data.</p>
-</div>
-</div>
-</div>
+    <noscript>
+      <p style="color:#a0a0a0;padding:2rem;">Enable JavaScript to play Pandemic Manager.</p>
+    </noscript>
+  </div>
 </section>
 
     <section id="publications" class="wrapper style2">
@@ -109,7 +153,7 @@ unique approach to modelling pandemic outcomes as by providing agents the freedo
 actions and learn from their experiences, RL allows agents to learn behavioural policies that 
 reduce the spread of COVID-19.
 <br><br>
-Alexander El-Hajj<br>
+Nicholas Denis, Alexander El-Hajj, Blair Drummond, Yamina Abiza & Krishna Chaitanya Gopaluni<br>
 <i>Mathematics of Public Health Book Chapter</i><br>
 [<a href="https://link.springer.com/chapter/10.1007/978-3-030-85053-1_12">Link</a>]
 </p>
@@ -181,6 +225,8 @@ Alexander El-Hajj, Emmanuel Benhin<br>
                 </div>
             </footer>
 
+        <script src="/assets/js/pandemic-game-data.js" defer></script>
+        <script src="/assets/js/pandemic-game.js" defer></script>
     </body>
 </html>
 
