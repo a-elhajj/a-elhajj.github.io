@@ -1,5 +1,25 @@
-# ignore all MS Word
-*.docx
-!LICENSE.txt
-.DS_Store
+# Dependencies
+vendor/
+.bundle/
+
+# Jekyll
 _site/
+.jekyll-cache
+.jekyll-metadata
+.sass-cache/
+
+# IDE / tooling
+.cursor/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Documents (keep LICENSE.txt)
+*.docx
+*.txt
+!LICENSE.txt
