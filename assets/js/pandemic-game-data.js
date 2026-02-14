@@ -33,7 +33,8 @@
 
   function generateAgentState() {
     var ageBracket = AGE_BRACKETS[Math.floor(Math.random() * AGE_BRACKETS.length)];
-    var comorbidities = Math.random() < 0.2 ? (Math.random() < 0.6 ? 1 : 2) : 0;
+    // Increased comorbidity chance to 50% for more gameplay variety
+    var comorbidities = Math.random() < 0.5 ? (Math.random() < 0.6 ? 1 : 2) : 0;
     var employmentRoll = Math.random();
     var employmentStatus = employmentRoll < 0.6 ? "employed" : (employmentRoll < 0.75 ? "student" : "unemployed");
     var employmentType = employmentStatus === "employed" ? (Math.random() < 0.3 ? "essential" : "nonessential") : null;
