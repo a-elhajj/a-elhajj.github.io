@@ -233,6 +233,9 @@
                 mainImage.style.display = "none";
                 mainVideo.style.display = "";
 
+                /* Historical reenactment: 50% volume */
+                mainVideo.volume = (proj.video.indexOf("historical-reenactment") !== -1) ? 0.5 : 1;
+
                 /* Poster shows instantly while video loads */
                 mainVideo.poster = proj.poster || "";
                 currentSrc = proj.video;
