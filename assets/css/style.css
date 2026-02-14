@@ -436,6 +436,50 @@
 		position: relative;
 	}
 
+    /* Centered Layout for Homepage */
+    .feature-grid.centered-layout .feature {
+        width: 100% !important;
+        margin-bottom: 4em !important;
+        display: block !important;
+        text-align: center !important;
+        float: none !important;
+    }
+    
+    .feature-grid.centered-layout .feature .image {
+        float: none !important;
+        display: block !important;
+        margin: 0 auto 2em auto !important;
+        width: 30% !important; /* Or adjust as needed for image size */
+        min-width: 250px !important;
+    }
+    
+    .feature-grid.centered-layout .feature .content {
+        float: none !important;
+        display: block !important;
+        margin: 0 auto !important;
+        width: 80% !important;
+        text-align: center !important;
+    }
+
+    /* Override the odd/even specific styling from base feature-grid */
+    .feature-grid.centered-layout .feature:nth-child(odd) .content, 
+    .feature-grid.centered-layout .feature:nth-child(odd) .image,
+    .feature-grid.centered-layout .feature:nth-child(even) .content, 
+    .feature-grid.centered-layout .feature:nth-child(even) .image {
+        float: none !important;
+        text-align: center !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    /* Ensure actions/buttons are centered */
+    .feature-grid.centered-layout .feature .content .actions {
+        text-align: center !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        display: inline-block !important;
+    }
+
 		.feature-grid:after {
 			clear: both;
 			content: '';
@@ -1197,6 +1241,97 @@
 /* Utility classes for shared page content blocks */
 .content-container {
 	max-width: 800px;
+}
+
+/* Timeline Component */
+.timeline {
+    position: relative;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.timeline::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    background-color: #e6e6e6;
+    top: 0;
+    bottom: 0;
+    left: 20px;
+    margin-left: -1px;
+}
+
+.timeline-item {
+    padding: 10px 40px;
+    position: relative;
+    background-color: inherit;
+    width: 100%;
+    margin-bottom: 2em;
+}
+
+.timeline-item::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    right: auto;
+    background-color: #fff;
+    border: 3px solid #f32853;
+    top: 15px;
+    border-radius: 50%;
+    z-index: 1;
+    left: 11px;
+}
+
+.timeline-content {
+    padding: 20px 30px;
+    background-color: #fff;
+    position: relative;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border: 1px solid rgba(144, 144, 144, 0.15);
+    transition: transform 0.3s ease;
+}
+
+.timeline-content:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+}
+
+.timeline-content h3 {
+    margin-top: 0;
+    font-size: 1.1em;
+    color: #f32853;
+    margin-bottom: 0.5em;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.timeline-content h4 {
+    font-size: 0.9em;
+    color: #484848;
+    margin-bottom: 1em;
+    font-weight: 700;
+}
+
+.timeline-content p {
+    font-size: 0.95em;
+    line-height: 1.6;
+    margin-bottom: 0;
+    color: #666;
+}
+
+/* Role Tag */
+.role-tag {
+    display: inline-block;
+    padding: 2px 10px;
+    background: rgba(243, 40, 83, 0.1);
+    color: #f32853;
+    border-radius: 4px;
+    font-size: 0.75em;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-transform: uppercase;
 }
 
 .content-wide {
