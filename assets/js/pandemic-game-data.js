@@ -1,36 +1,35 @@
 /**
  * Pandemic Manager: AI Edition - Paper-Aligned Data
- * Tables 1, 2, 3, 4, 5 from Denis et al. "Learning COVID-19 Mitigation Strategies Using RL"
+ * Denis et al. "Learning COVID-19 Mitigation Strategies Using RL"
  * - Table 1: Agent states (age, employment, comorbidities)
- * - Table 3: Infection severity by age
- * - Table 4: Death probability by age + comorbidities
- * - Base infection: 3.931058% per contact; +SD reduces by factor 0.6
+ * - Table 2: Action categories (Work, Social, School, Home + SD)
+ * - Table 6: Infection events (%) by location - B1 (baseline), B2 (with SD)
  */
 
 (function (global) {
   "use strict";
 
-  var P_INFECTION_PER_CONTACT = 0.03931058;
-  var P_INFECTION_PER_CONTACT_SD = 0.03931058 * 0.6;
+  /* Table 6: Infection events (%) - B1=no SD, B2=with SD. Scaled ~0.4 for per-visit probability. */
+  var TABLE6_BASE = {
+    social: { noSD: 0.057, withSD: 0.040 },
+    school: { noSD: 0.038, withSD: 0.030 },
+    work: { noSD: 0.048, withSD: 0.032 },
+    hospital: { noSD: 0.040, withSD: 0.024 }
+  };
 
+  /* Table 1: Agent states - Age susceptibility (Table 3 severity correlates with susceptibility) */
   var AGE_BRACKETS = [
-    { id: "0-19", label: "Age 0-19", min: 0, max: 19, susceptibilityMod: 1.0 },
+    { id: "0-19", label: "Age 0-19", min: 0, max: 19, susceptibilityMod: 0.95 },
     { id: "20-43", label: "Age 20-43", min: 20, max: 43, susceptibilityMod: 1.0 },
-    { id: "44-53", label: "Age 44-53", min: 44, max: 53, susceptibilityMod: 1.1 },
-    { id: "54-63", label: "Age 54-63", min: 54, max: 63, susceptibilityMod: 1.15 },
-    { id: "64-73", label: "Age 64-73", min: 64, max: 73, susceptibilityMod: 1.2 },
-    { id: "74-83", label: "Age 74-83", min: 74, max: 83, susceptibilityMod: 1.3 },
-    { id: "84+", label: "Age 84+", min: 84, max: 99, susceptibilityMod: 1.4 }
+    { id: "44-53", label: "Age 44-53", min: 44, max: 53, susceptibilityMod: 1.05 },
+    { id: "54-63", label: "Age 54-63", min: 54, max: 63, susceptibilityMod: 1.1 },
+    { id: "64-73", label: "Age 64-73", min: 64, max: 73, susceptibilityMod: 1.15 },
+    { id: "74-83", label: "Age 74-83", min: 74, max: 83, susceptibilityMod: 1.2 },
+    { id: "84+", label: "Age 84+", min: 84, max: 99, susceptibilityMod: 1.25 }
   ];
 
-  var COMORBIDITY_MOD = { 0: 1.0, 1: 1.25, 2: 1.5 };
-
-  var LOCATION_CONTACTS = {
-    home: 3,
-    work: 5,
-    school: 10,
-    social: 10
-  };
+  /* Table 1: # Comorbidities {0, 1, 2+} - gentler modifiers for infection susceptibility */
+  var COMORBIDITY_MOD = { 0: 1.0, 1: 1.08, 2: 1.15, 3: 1.2 };
 
   function generateAgentState() {
     var ageBracket = AGE_BRACKETS[Math.floor(Math.random() * AGE_BRACKETS.length)];
@@ -57,12 +56,12 @@
   }
 
   function calcInfectionRisk(locId, usesSD, communityLevel, agent) {
-    var n = LOCATION_CONTACTS[locId] || 5;
-    var pContact = usesSD ? P_INFECTION_PER_CONTACT_SD : P_INFECTION_PER_CONTACT;
-    var baseProb = 1 - Math.pow(1 - pContact, n);
-    var communityFactor = 1 + communityLevel * 2.5;
+    var locKey = locId === "social" ? "social" : locId === "school" ? "school" : locId === "work" ? "work" : "hospital";
+    var base = TABLE6_BASE[locKey] || TABLE6_BASE.work;
+    var baseProb = usesSD ? base.withSD : base.noSD;
+    var communityFactor = 1 + communityLevel * 0.8;
     var agentMod = agent && agent.susceptibilityMod ? agent.susceptibilityMod : 1;
-    return Math.min(0.98, baseProb * communityFactor * agentMod);
+    return Math.min(0.85, baseProb * communityFactor * agentMod);
   }
 
   var LOCATION_DEFS = {
@@ -186,7 +185,7 @@
           prompt: "Wear mask in waiting room?",
           options: [
             { id: "yes", label: "Yes", riskMod: 0.2, usesSD: true },
-            { id: "no", label: "No", riskMod: 1.5, usesSD: false }
+            { id: "no", label: "No", riskMod: 1.2, usesSD: false }
           ]
         }
       ]
@@ -217,17 +216,19 @@
 
     var baseRisk = calcInfectionRisk(locId, usesSD, communityLevel, agent);
     var effectiveRisk = baseRisk * totalRiskMod;
+    /* Cap at 0.95 so infection is never guaranteed - paper uses probabilities */
+    effectiveRisk = Math.min(0.95, effectiveRisk);
     return Math.random() < effectiveRisk;
   }
 
   var RESEARCH_TIPS = [
-    "Research: 45.4% of infections occur at home when people spend more time indoors. Household transmission is real.",
-    "RL agents learned that getting tested and self-isolating when symptomatic dramatically reduces spread.",
-    "Contact tracing + asymptomatic testing outperforms blunt lockdowns in our Ontario simulation.",
-    "School compliance matters: non-compliant schools become hotbeds for infection.",
-    "Agents learned to prefer social distancing (+SD) 8x more than going without when at school.",
-    "Asymptomatic carriers can spread the virus. Testing identifies hidden carriers before they infect others.",
-    "Paper: +SD reduces infection rate by factor 0.6. Mask and distance at high-risk locations."
+    "Paper Table 6: 45.4% of infections occur at home when people spend more time indoors (LB scenario). Household transmission is real.",
+    "Table 6: Being social 14.3% (B1) vs 9.9% (B2) with SD—mask and distance cut risk.",
+    "Table 6: At school 9.6% (B1) vs 7.4% (B2) with SD. School + SD reduces infection events.",
+    "Table 1: Your age and # comorbidities define your agent state and susceptibility.",
+    "Contact tracing + asymptomatic testing (LB+ATT) outperforms blunt lockdowns in our Ontario simulation.",
+    "Q-learning agents discovered work-from-home as a dominant strategy.",
+    "Agent states from Table 1 (age, employment, comorbidities) affect infection probability."
   ];
 
   function getRandomTip() {

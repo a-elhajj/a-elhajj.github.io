@@ -12,7 +12,8 @@
         <link rel="stylesheet" href="/assets/css/skel.css" />
         <link rel="stylesheet" href="/assets/css/style.css" />
         <link rel="stylesheet" href="/assets/css/style-xlarge.css" />
-        <link rel="stylesheet" href="/assets/css/pandemic-game.css" />
+        <link rel="stylesheet" href="/assets/css/pandemic-game.css?v=2" />
+        <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
         <script src="/assets/js/jquery.min.js" defer></script>
         <script src="/assets/js/skel.min.js" defer></script>
         <script src="/assets/js/skel-layers.min.js" defer></script>
@@ -69,16 +70,53 @@
                 <p>Making everything more efficient should make everybody happier. - Geoffrey Hinton</p>
             </section>
 
-<section id="pandemic-game" class="wrapper style1">
-  <div class="container 75%">
+<section id="research-papers" class="wrapper style2">
+  <div class="container content-wide">
+    <div class="research-content">
+
     <header class="major special">
-      <h2>Pandemic Manager: AI Edition</h2>
-      <p>Learn optimal COVID-19 mitigation strategies from reinforcement learning research</p>
+      <h2>Research</h2>
+      <p>Publications and interactive explorations</p>
     </header>
-    <div id="game-viewport" class="game-viewport">
+
+    <!-- Paper 1: COVID-19 RL -->
+    <article id="El-Hajj2021BookChapter" class="research-paper-block">
+      <div class="game-intro-card">
+        <p class="game-intro-tagline">AI LEARNS TO BEAT A PANDEMIC.<br>YOU GET TO PLAY.</p>
+        
+        <h3 class="game-intro-title">Learning COVID-19 Mitigation Strategies Using Reinforcement Learning</h3>
+        
+        <p class="game-intro-meta">
+          Nicholas Denis, Alexander El-Hajj, Blair Drummond, Yamina Abiza &amp; Krishna Chaitanya Gopaluni<br>
+          <em>Mathematics of Public Health</em> (Springer, 2021)
+        </p>
+
+        <div class="game-intro-actions">
+          <a href="https://link.springer.com/chapter/10.1007/978-3-030-85053-1_12" class="game-intro-cta">READ THE CHAPTER</a>
+          <a href="mailto:alex.elhajj88@gmail.com?subject=Request for Manuscript: Learning COVID-19 Mitigation Strategies" class="game-intro-cta secondary">REQUEST MANUSCRIPT</a>
+        </div>
+
+        <div class="game-intro-explore">
+          <h4 class="game-intro-heading">EXPLORE THE RESEARCH</h4>
+          <p class="game-intro-body">Survive 100 days. Make the calls our RL agents learned to make.</p>
+        </div>
+
+        <div class="game-intro-why">
+          <h4 class="game-intro-heading">WHY THIS GAME?</h4>
+          <p class="game-intro-body">We trained AI agents on real Ontario data to find behaviors that <strong>actually</strong> cut infection risk. This game drops you into their world.</p>
+          <ul class="game-intro-bullets">
+            <li><span class="bullet-label">YOU'RE THE AGENT</span> — Age, job, & health risk are randomized each run.</li>
+            <li><span class="bullet-label">YOUR CHOICES MATTER</span> — Mask up, distance, WFH, or risk the party.</li>
+            <li><span class="bullet-label">REAL NUMBERS</span> — Infection rates come straight from our paper's Tables 1–6.</li>
+            <li><span class="bullet-label">KEY FINDING</span> — Contact tracing + testing beats blunt lockdowns.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div id="game-viewport" class="game-viewport">
       <div id="game-title-screen" class="game-title-screen">
         <h2>PANDEMIC MANAGER<br>Q-LEARNING EDITION</h2>
-        <p>Move between locations and make decisions. Survive as long as you can without getting infected. Mask and social distance at high-risk places.</p>
+        <p>You're an agent. Age & health risk are random. Visit locations, make choices—mask, distance, work from home. Survive 100 days.</p>
         <button type="button" class="game-start-btn" id="game-start-btn">Start Game</button>
       </div>
       <div id="game-main" class="game-hidden">
@@ -125,80 +163,51 @@
     <noscript>
       <p style="color:#a0a0a0;padding:2rem;">Enable JavaScript to play Pandemic Manager.</p>
     </noscript>
+      </div>
+    </article>
+
+    <hr class="paper-divider">
+
+    <!-- Paper 2: Food Security -->
+    <article id="FoodSecurity" class="research-paper-block">
+      <header class="paper-header">
+        <h3>Association between Food Insecurity and Stressful Life Events among Canadian Adults</h3>
+        <p class="paper-meta">
+          Alexander El-Hajj, Emmanuel Benhin<br>
+          <em>Longitudinal and International Study of Adults Research Paper Series</em><br>
+          <a href="https://www150.statcan.gc.ca/n1/pub/89-648-x/89-648-x2021001-eng.htm">Read the paper →</a>
+        </p>
+      </header>
+      <a href="https://www150.statcan.gc.ca/n1/pub/89-648-x/89-648-x2021001-eng.htm">
+        <span class="image left">
+          <img src="/assets/images/foodinsecurity.jpg" title="Association between Food Insecurity and Stressful Life Events among Canadian Adults" alt="Association between Food Insecurity and Stressful Life Events among Canadian Adults" class="publication-thumb">
+        </span>
+      </a>
+      <p>This study investigates the extent to which stressful life events may increase the likelihood of food insecurity among the Canadian adult population. Those who experienced work and health-related stressful life events were significantly more likely to be exposed to food insecurity.</p>
+    </article>
+
+    <hr class="paper-divider">
+
+    <!-- Paper 3: Validation -->
+    <article id="ValidationFS" class="research-paper-block">
+      <header class="paper-header">
+        <h3>Validation of the Food Security Module in the 2018 Longitudinal and International Study of Adults</h3>
+        <p class="paper-meta">
+          Alexander El-Hajj, Emmanuel Benhin<br>
+          <em>Longitudinal and International Study of Adults Research Paper Series</em><br>
+          <a href="https://www150.statcan.gc.ca/n1/pub/89-648-x/89-648-x2020004-eng.htm">Read the paper →</a>
+        </p>
+      </header>
+      <a href="https://www150.statcan.gc.ca/n1/pub/89-648-x/89-648-x2020004-eng.htm">
+        <span class="image left">
+          <img src="/assets/images/foodsec.jpg" title="Validation of the Food Security Module in the 2018 Longitudinal and International Study of Adults" alt="Validation of the Food Security Module in the 2018 Longitudinal and International Study of Adults" class="publication-thumb">
+        </span>
+      </a>
+      <p>This technical report validates the LISA Wave 4 (2018) Food Security (FSC) module and provides recommendations for analytical use.</p>
+    </article>
+
+    </div><!-- .research-content -->
   </div>
-</section>
-
-    <section id="publications" class="wrapper style2">
-        <div class="container content-wide">
-
-            <header class="major special">
-                <h2>Publications</h2>
-                <p>All the links you could want</p>
-            </header>
-
-
-<p id="El-Hajj2021BookChapter">
-<h4>
-    Mathematics of Public Health Book Chapter: Learning COVID-19 Mitigation Strategies using Reinforcement Learning
-     <a href="research.html#El-Hajj2021BookChapter"><span class="image right"><img src="/assets/images/link-to-here.png" title="Link to this paper" alt="Link to this paper" class="anchor-icon"></span></a>
-</h4>
-<a href="https://link.springer.com/chapter/10.1007/978-3-030-85053-1_12">
-    <span class="image left">
-        <img src="/assets/images/pacman.jpg" title="Learning COVID-19 Mitigation Strategies using Reinforcement Learning" alt="Learning COVID-19 Mitigation Strategies using Reinforcement Learning" class="publication-thumb">
-    </span>
-</a>
-A novel ABM-RL-based modelling approach for learning and analyzing pandemic mitigation strategies using 
-Ontario, Canada epidemiological, socioeconomic, health, and social data. This book chapter provides a
-unique approach to modelling pandemic outcomes as by providing agents the freedom to select their 
-actions and learn from their experiences, RL allows agents to learn behavioural policies that 
-reduce the spread of COVID-19.
-<br><br>
-Nicholas Denis, Alexander El-Hajj, Blair Drummond, Yamina Abiza & Krishna Chaitanya Gopaluni<br>
-<i>Mathematics of Public Health Book Chapter</i><br>
-[<a href="https://link.springer.com/chapter/10.1007/978-3-030-85053-1_12">Link</a>]
-</p>
-<br>
-
-<p id="FoodSecurity">
-<h4>
-    Association between Food Insecurity and Stressful Life Events among Canadian Adults
-     <a href="research.html#FoodSecurity"><span class="image right"><img src="/assets/images/link-to-here.png" title="Link to this paper" alt="Link to this paper" class="anchor-icon"></span></a>
-</h4>
-<a href="https://www150.statcan.gc.ca/n1/pub/89-648-x/89-648-x2021001-eng.htm">
-    <span class="image left">
-        <img src="/assets/images/foodinsecurity.jpg" title="Association between Food Insecurity and Stressful Life Events among Canadian Adults" alt="Association between Food Insecurity and Stressful Life Events among Canadian Adults" class="publication-thumb">
-    </span>
-</a>
-This study investigates the extent to which stressful life events may increase the likelihood of food insecurity among the Canadian adult population.
-Those who experienced work and health-related stressful life events were significantly more likely to be exposed to food insecurity. 
-<br><br>
-Alexander El-Hajj, Emmanuel Benhin<br>
-<i>Longitudinal and International Study of Adults Research Paper Series</i><br>
-[<a href="https://www150.statcan.gc.ca/n1/pub/89-648-x/89-648-x2021001-eng.htm">Paper</a>]
-</p>
-<br>
-
-
-<p id="ValidationFS">
-<h4>
-    Validation of the Food Security Module in the 2018 Longitudinal and International Study of Adults
-     <a href="research.html#ValidationFS"><span class="image right"><img src="/assets/images/link-to-here.png" title="Link to this paper" alt="Link to this paper" class="anchor-icon"></span></a>
-</h4>
-<a href="https://www150.statcan.gc.ca/n1/pub/89-648-x/89-648-x2020004-eng.htm">
-    <span class="image left">
-        <img src="/assets/images/foodsec.jpg" title="Validation of the Food Security Module in the 2018 Longitudinal and International Study of Adults" alt="Validation of the Food Security Module in the 2018 Longitudinal and International Study of Adults" class="publication-thumb">
-    </span>
-</a>
-This technical report is intended to validate the Longitudinal and International Study of Adults (LISA) Wave 4 (2018) Food Security (FSC) module and provide recommendations for analytical use. 
-<br><br>
-Alexander El-Hajj, Emmanuel Benhin<br>
-<i>Longitudinal and International Study of Adults Research Paper Series</i><br>
-[<a href="https://www150.statcan.gc.ca/n1/pub/89-648-x/89-648-x2020004-eng.htm">Paper</a>]
-</p>
-<br>
-
-
-</div>
 </section>
 
                 <section id="resume" class="wrapper style3 special">
@@ -220,7 +229,7 @@ Alexander El-Hajj, Emmanuel Benhin<br>
                         <li><a href="https://www.linkedin.com/in/alexander-el-hajj-36154386" class="icon fa-linkedin"></a></li>
                     </ul>
                     <ul class="copyright">
-                        <li>Copyright &copy; Alexander El-Hajj</li>
+                        <li>&copy; 2025 Alexander El-Hajj. All rights reserved.</li>
                     </ul>
                 </div>
             </footer>

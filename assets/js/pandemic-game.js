@@ -307,9 +307,9 @@
     var html = '<div class="game-end-screen victory" id="victory-screen">' +
       '<h2>VICTORY!</h2>' +
       '<p><strong>100 DAYS SURVIVED!</strong></p>' +
-      '<p>You flattened the curve, saved the economy (sort of), and mastered the art of awkward elbow bumps.</p>' +
-      '<p>The virus has officially filed a complaint against you.</p>' +
+      '<p>You applied the mitigation strategies our RL agents learned: masking, social distancing, work-from-home when possible.</p>' +
       '<p class="score">Final Score: 100 Days' + agentInfo + '</p>' +
+      '<p><em>From our paper: RL agents discover policies that reduce spread. You just lived one.</em></p>' +
       '<button type="button" class="restart-btn" id="restart-btn-win">Play Again</button>' +
       '</div>';
       
@@ -357,7 +357,7 @@
       '<h2>INFECTED</h2>' +
       '<p>You brought the infection home. Household transmission is active.</p>' +
       '<p class="score">You survived ' + survived + ' days' + agentInfo + '</p>' +
-      '<p><em>Research: 45.4% of infections occur at home when people spend more time indoors. Mask and social distance at high-risk locations.</em></p>' +
+      '<p><em>From our paper: 45.4% of infections occur at home when people spend more time indoors. Mask and social distance at high-risk locations (SD reduces risk by factor 0.6).</em></p>' +
       '<button type="button" class="restart-btn" id="restart-btn">Try Again</button>' +
       '</div>';
     var container = getEl("game-end-container");
