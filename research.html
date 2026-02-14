@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="/assets/css/style.css" />
         <link rel="stylesheet" href="/assets/css/style-xlarge.css" />
         <link rel="stylesheet" href="/assets/css/pandemic-game.css?v=2" />
+        <link rel="stylesheet" href="/assets/css/stress-test.css?v=1" />
         <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
         <script src="/assets/js/jquery.min.js" defer></script>
         <script src="/assets/js/skel.min.js" defer></script>
@@ -184,6 +185,12 @@
         </span>
       </a>
       <p>This study investigates the extent to which stressful life events may increase the likelihood of food insecurity among the Canadian adult population. Those who experienced work and health-related stressful life events were significantly more likely to be exposed to food insecurity.</p>
+    
+      <!-- STRESS TEST SIMULATION CONTAINER -->
+      <div id="stress-test-container" class="stress-test-container">
+        <!-- Dashboard will be injected here by assets/js/stress-test.js -->
+        <div class="stress-test-loading">Loading Simulation...</div>
+      </div>
     </article>
 
     <hr class="paper-divider">
@@ -236,6 +243,7 @@
 
         <script src="/assets/js/pandemic-game-data.js" defer></script>
         <script src="/assets/js/pandemic-game.js" defer></script>
+        <script src="/assets/js/stress-test.js" defer></script>
     </body>
 </html>
 
