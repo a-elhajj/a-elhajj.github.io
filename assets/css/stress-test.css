@@ -7,11 +7,15 @@
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     padding: 0;
-    margin: 2em 0;
+    margin: 3rem 0 4rem 0; /* Updated margins */
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     font-family: "Roboto", sans-serif; /* Fallback to site font */
     color: #333;
     overflow: hidden;
+    clear: both; /* Ensure it clears floated elements above */
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .stress-header {
@@ -258,4 +262,10 @@
     0% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.4); }
     70% { box-shadow: 0 0 0 10px rgba(231, 76, 60, 0); }
     100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
+}
+
+/* Paper Intro Wrapper to contain floats */
+.paper-intro-section {
+    overflow: auto; /* Contains the floated image */
+    margin-bottom: 2rem;
 }
