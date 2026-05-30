@@ -77,7 +77,7 @@
 				<div class="hero-inner">
 					<div>
 						<h1 id="hero-h">Data scientist &amp; generative-AI builder, based in <em>Montreal.</em></h1>
-						<p class="hero-sub">I like hard problems and the unglamorous engineering that makes AI actually work. Day job: modernizing secure data systems at Statistics Canada. The rest of the time: building, breaking, and shipping GenAI. <strong>Six years turning research and messy data into things that run.</strong></p>
+						<p class="hero-sub">I like hard problems and the unglamorous engineering that makes AI actually work. Day job: modernizing secure data systems at Statistics Canada. The rest of the time: building, breaking, and shipping GenAI. <strong>Eight years turning research and messy data into things that run.</strong></p>
 					</div>
 					<!-- SWAP: this is your surf photo (me.jpeg). Replace src to change it. -->
 					<figure class="hero-portrait">
@@ -111,7 +111,7 @@
 					<!-- LEFT: curiosity-forward intro + skill index (no portrait; photo lives in hero) -->
 					<div class="about-intro rv">
 						<p class="lede">I research and chase down hard problems, then build the thing that unblocks the team. I'm happiest understanding a system end-to-end and finding the simple version of it.</p>
-						<p class="lede-2">For six years I've worked at the seam where data meets reality — secure public-sector analytics at Statistics Canada, applied ML and OCR research for federal partners, and reinforcement-learning work that ended up in a Springer volume. More recently that curiosity pulled me into generative AI: retrieval over messy document stores, fine-tuning small models under tight constraints, on-device inference with real safety boundaries, and agents on cloud infrastructure. I care about evaluation, observability, and the unglamorous integration work — the parts that decide whether a prototype survives. I hold a Reliability Status security clearance.</p>
+						<p class="lede-2">For eight years I've worked at the seam where data meets reality — secure public-sector analytics at Statistics Canada, applied ML and OCR research for federal partners, and reinforcement-learning work that ended up in a Springer volume. More recently that curiosity pulled me into generative AI: retrieval over messy document stores, fine-tuning small models under tight constraints, on-device inference with real safety boundaries, and agents on cloud infrastructure. I care about evaluation, observability, and the unglamorous integration work — the parts that decide whether a prototype survives. I hold a Reliability Status security clearance.</p>
 					</div>
 
 					<!-- RIGHT: experience timeline -->
@@ -161,10 +161,11 @@
 							<div class="w-title">GuardAI <em>a stacked guardrail that protects youth in digital crisis spaces</em></div>
 							<p class="w-desc">Built with team MindCraft. Keyword filters miss youth crisis because risk is a trajectory — it hides in coded language and multi-turn subtext. We fine-tuned a bilingual (EN/FR) <strong>EuroBERT-610M</strong> classifier on <strong>85,000+ synthetic samples</strong> from a six-phase data-generation pipeline, using two-stage curriculum learning across 23 risk categories. A fast ~24ms classifier flags obvious signals; gray-zone cases escalate to a cascaded LLM judge. We tuned for recall on purpose — a false alarm gets filtered by a counsellor, a missed crisis does not.</p>
 							<p class="w-metrics"><span class="metric"><b>0.9084</b> recall</span><span class="metric"><b>~24ms</b> classifier latency</span><span class="metric"><b>610M</b> params · 2048-token context</span></p>
-							<div class="w-links"><span class="w-locked">🔒 Private repo — architecture &amp; results on request</span></div>
+							<div class="w-links"><a href="https://www.linkedin.com/posts/alexander-el-hajj_with-mental-health-week-now-underway-it-ugcPost-7457522956487962624-7Oc9/" rel="noopener">Read the writeup ↗</a> <span class="w-locked">🔒 Private repo — architecture &amp; results on request</span></div>
 							<p class="w-note">Kept private under hackathon and safety constraints. Happy to walk through the pipeline, training tricks, and evaluation in detail.</p>
 						</div>
 						<div class="w-meta"><p class="w-stack">EuroBERT · PyTorch · Curriculum learning · Synthetic data · 8-bit Adam · BF16 · Cascaded LLM judge</p></div>
+						<div class="w-media is-logo"><img src="/assets/images/mila.svg" alt="Mila — Quebec AI Institute" loading="lazy"></div>
 					</article>
 
 					<!-- Gemma Flares -->
@@ -178,8 +179,7 @@
 							<div class="w-links"><a href="https://github.com/a-elhajj/Gemma-Flares" rel="noopener">GitHub ↗</a> <a href="https://github.com/a-elhajj/Gemma-Flares/blob/main/docs/technical-readme.md" rel="noopener">Technical README ↗</a></div>
 						</div>
 						<div class="w-meta"><p class="w-stack">Flutter · Dart · Gemma · LiteRT-LM · SQLCipher · CI eval gate · Persona suite · Latency benchmarks · Adversarial tests</p></div>
-						<!-- SWAP: replace with a real app screenshot -->
-						<div class="w-media" aria-hidden="true"><img src="/assets/images/force_bound.jpg" alt="" loading="lazy"></div>
+						<div class="w-media"><img src="/assets/images/gemma_flares.png" alt="Gemma Flares app" loading="lazy"></div>
 					</article>
 				</div>
                 
@@ -193,8 +193,7 @@
 							<div class="w-links"><a href="https://github.com/a-elhajj/agentic-rag-engine" rel="noopener">GitHub ↗</a></div>
 						</div>
 						<div class="w-meta"><p class="w-stack">Python · LangChain · Qdrant · FastEmbed · Ollama · AWS S3 · Docker</p></div>
-						<!-- SWAP: replace poster with a real screenshot of the RAG engine -->
-						<div class="w-media" aria-hidden="true"><img src="/assets/images/hidden.jpg" alt="" loading="lazy"></div>
+						<div class="w-media"><img src="/assets/images/local-rag.jpg" alt="Document library" loading="lazy"></div>
 					</article>
 
 				<div class="subhead"><span class="tick" aria-hidden="true"></span> In progress</div>
@@ -221,6 +220,7 @@
 							<p class="w-desc">An in-progress design for agent infrastructure — tool use, task routing, and repeatable local/cloud workflows, with the operational layer (MCP-style integration, tracing, prompt contracts) as the focus. Early-stage; the production patterns here are proven in <a href="https://github.com/a-elhajj/Gemma-Flares" rel="noopener">Gemma&nbsp;Flares</a>'s shipped agent + eval gate.</p>
 						</div>
 						<div class="w-meta"><p class="w-stack">Multi-agent systems · MCP · ReAct · Tracing</p></div>
+						<div class="w-media"><img src="/assets/images/nous.jpeg" alt="Hermes" loading="lazy"></div>
 					</article>
 
 					<!-- Learning track -->
@@ -232,6 +232,7 @@
 							<p class="w-desc">Sharpening the implementation patterns behind production GenAI: agent design, evaluation, LLM application architecture, and responsible deployment.</p>
 						</div>
 						<div class="w-meta"><p class="w-stack">Hugging Face · DeepLearning.AI · Evaluation</p></div>
+						<div class="w-media is-logo is-logo-row"><img src="/assets/images/huggingface.svg" alt="Hugging Face" loading="lazy"><img src="/assets/images/coursera.svg" alt="Coursera" loading="lazy"></div>
 					</article>
 				</div>
 
@@ -247,6 +248,7 @@
 							<div class="w-links"><a href="/docs/Final Project Report - Heart Disease.pdf">Read report ↗</a></div>
 						</div>
 						<div class="w-meta"><p class="w-stack">scikit-learn · classification · clustering</p></div>
+						<div class="w-media is-logo"><img src="/assets/images/carleton.svg" alt="Carleton University" loading="lazy"></div>
 					</article>
 
 					<article class="work rv">
@@ -258,6 +260,7 @@
 							<div class="w-links"><a href="https://people.math.carleton.ca/~smills/2017-18/STAT4601-5703/Research%20Projects/2018%20Submissions/REveronArmaniousElHajjKhan/Research-Project.pdf" rel="noopener">Read report ↗</a></div>
 						</div>
 						<div class="w-meta"><p class="w-stack">statistical detection · digital forensics</p></div>
+						<div class="w-media is-logo"><img src="/assets/images/carleton.svg" alt="Carleton University" loading="lazy"></div>
 					</article>
 				</div>
 			</div>
