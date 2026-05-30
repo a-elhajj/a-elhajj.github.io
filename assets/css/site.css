@@ -159,19 +159,21 @@ section { position:relative; }
 /* ============================================================ WORK ============================================================ */
 .worklist { border-top:1px solid var(--hair); }
 .work {
-	display:grid; grid-template-columns: 3rem minmax(0,1fr) auto; gap: clamp(.5rem,2vw,2rem);
+	display:grid; grid-template-columns: 3rem minmax(0,1fr) clamp(180px,22vw,280px);
+	grid-template-rows: auto 1fr; gap: clamp(.5rem,2vw,2rem) clamp(1.5rem,3vw,3rem);
 	align-items:start; padding-block: clamp(1.6rem,3.5vh,2.6rem);
 	border-bottom:1px solid var(--hair); position:relative; transition: padding-left .4s var(--ease);
 }
-.work .w-idx { grid-column:1; }
+.work .w-idx { grid-column:1; grid-row:1; }
 .work:hover { padding-left: clamp(.5rem,2vw,1.5rem); }
 @media (prefers-reduced-motion:reduce){ .work:hover{ padding-left:0; } }
 .work .w-idx { font:700 .8rem/1.4 var(--f-mono); color:var(--muted); }
 .work:hover .w-idx { color:var(--accent); }
 .work .w-title { font-family:var(--f-display); font-weight:500; font-size: clamp(1.5rem,1rem + 3vw,3.4rem); letter-spacing:-.02em; line-height:1.02; }
 .work .w-title em { font-family:var(--f-display); font-style:italic; font-weight:400; color:var(--muted); font-size:.5em; display:block; margin-top:.5rem; letter-spacing:0; line-height:1.25; }
-.work .w-meta { grid-column:2; text-align:left; min-width:0; margin-top:1.1rem; }
-.work .w-stack { font:400 .72rem/1.5 var(--f-mono); color:var(--muted); letter-spacing:.04em; max-width:48ch; }
+/* Skills sit in the right column, aligned to the top of the description. */
+.work .w-meta { grid-column:3; grid-row:1; align-self:start; text-align:left; min-width:0; margin-top:.4rem; }
+.work .w-stack { font:400 .72rem/1.6 var(--f-mono); color:var(--muted); letter-spacing:.04em; }
 .work .w-status { display:inline-flex; align-items:center; gap:.4rem; font:700 .66rem/1.3 var(--f-mono); letter-spacing:.16em; text-transform:uppercase; color:var(--accent); margin-bottom:.6rem; }
 .work .w-status.wip { color:var(--muted); }
 .work .w-status.wip .dot { background:var(--muted); }
@@ -179,8 +181,8 @@ section { position:relative; }
 /* In-flow project thumbnail: lives in the right column, always visible,
    never overlaps the description (text is capped at 62ch on the left). */
 .work .w-media {
-	grid-column:3; grid-row:1 / span 2; align-self:center; justify-self:end;
-	width:min(30vw,260px); aspect-ratio:16/10;
+	grid-column:3; grid-row:2; align-self:start; justify-self:stretch;
+	width:100%; aspect-ratio:16/10; margin-top:.4rem;
 	border:1px solid var(--hair); overflow:hidden; background:var(--bg);
 }
 .work .w-media img { width:100%; height:100%; object-fit:cover; display:block; }
@@ -190,7 +192,7 @@ section { position:relative; }
 /* two logos sharing one tile (e.g. Hugging Face + Coursera) */
 .work .w-media.is-logo-row { gap:1.2rem; }
 .work .w-media.is-logo-row img { max-height:64%; }
-.work .w-detail { grid-column: 2; }
+.work .w-detail { grid-column:2; grid-row:1 / span 2; }
 .work .w-desc { font-family:var(--f-text); color:var(--muted); max-width:62ch; margin:.9rem 0 0; font-size:1.02rem; }
 .work .w-desc strong { color:var(--ink); font-weight:500; }
 /* metric row for projects with real numbers (GuardAI) */
@@ -205,11 +207,11 @@ section { position:relative; }
 .subhead { font:700 .72rem/1 var(--f-mono); letter-spacing:.22em; text-transform:uppercase; color:var(--muted); padding:2.4rem 0 .6rem; display:flex; align-items:center; gap:.8rem; }
 
 @media (max-width:680px){
-	.work { grid-template-columns: 2rem 1fr; }
-	.work .w-detail { grid-column:2; }
-	.work .w-meta { grid-column:2; text-align:left; margin-top:.6rem; }
+	.work { grid-template-columns: 2rem 1fr; grid-template-rows:none; }
+	/* single right column: description, then skills, then image, in source order */
+	.work .w-detail { grid-column:2; grid-row:auto; }
+	.work .w-meta { grid-column:2; grid-row:auto; text-align:left; margin-top:.9rem; }
 	.work .w-stack { margin-left:0; max-width:none; }
-	/* image drops below the text so it never overlaps on narrow screens */
 	.work .w-media { grid-column:2; grid-row:auto; justify-self:start; width:100%; max-width:320px; margin-top:1rem; }
 }
 
