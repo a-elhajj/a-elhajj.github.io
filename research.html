@@ -9,9 +9,13 @@
         <title>Alexander El-Hajj - Research</title>
         <meta name="description" content="Research publications by Alexander El-Hajj focused on reinforcement learning, public health, and food insecurity analytics." />
         <meta name="keywords" content="Alexander El-Hajj, research, reinforcement learning, food insecurity, public health, publications" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Geist:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="/assets/css/skel.css" />
         <link rel="stylesheet" href="/assets/css/style.css" />
         <link rel="stylesheet" href="/assets/css/style-xlarge.css" />
+        <!-- shared design system (after skel so tokens win) -->
+        <link rel="stylesheet" href="/assets/css/site.css" />
         <link rel="stylesheet" href="/assets/css/pandemic-game.css?v=2" />
         <link rel="stylesheet" href="/assets/css/stress-test.css?v=1" />
         <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
@@ -52,32 +56,36 @@
     </head>
     <body class="landing">
 
-        <!-- Header -->
-            <header id="header" class="alt">
-          <h1><strong><a href="/">Creativity</a></strong> & Automation</h1>
-                <nav id="nav">
-                    <ul>
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/research.html">Research</a></li>
-                        <li><a href="/ai-portfolio.html">Portfolio</a></li>
-                    </ul>
-                </nav>
+    <a class="skip" href="#main">Skip to content</a>
+    <div class="cursor" aria-hidden="true"></div>
+
+        <!-- Header — shared design system -->
+            <header class="head">
+                <div class="shell">
+                    <a class="mark" href="/"><span class="glyph">+</span> EL-HAJJ / DATA + AI</a>
+                    <nav aria-label="Primary">
+                        <ul>
+                            <li><a href="/#about">About</a></li>
+                            <li><a href="/#work">Work</a></li>
+                            <li><a href="/#offline">Offline</a></li>
+                            <li class="nav-sep" aria-hidden="true"></li>
+                            <li><a class="nav-out" href="/research.html">Research <span aria-hidden="true">↗</span></a></li>
+                            <li><a class="nav-out" href="/ai-portfolio.html">Portfolio <span aria-hidden="true">↗</span></a></li>
+                        </ul>
+                    </nav>
+                </div>
             </header>
 
-        <!-- Banner -->
-            <section id="banner">
-                <h2>Alexander El-Hajj</h2>
-                <p>Making everything more efficient should make everybody happier. - Geoffrey Hinton</p>
-            </section>
+<main id="main">
+<!-- Page intro band in the shared system -->
+<div class="page-top">
+  <div class="shell"><span class="idx">(R)</span><h1>Academic <em>research</em></h1></div>
+  <div class="shell"><p class="page-lede">Peer-reviewed work and interactive explorations — reinforcement learning for pandemic policy and public-sector food-security analytics. Two of these you can actually play.</p></div>
+</div>
 
 <section id="research-papers" class="wrapper style2">
   <div class="container content-wide">
     <div class="research-content">
-
-    <header class="major special">
-      <h2>Research</h2>
-      <p>Publications and interactive explorations</p>
-    </header>
 
     <!-- Paper 1: COVID-19 RL -->
     <article id="El-Hajj2021BookChapter" class="research-paper-block">
@@ -218,29 +226,28 @@
   </div>
 </section>
 
-                <section id="resume" class="wrapper style3 special" style="margin-top: 4em;">
-                    <div class="container">
-                        <header class="major">
-                            <h2>Want more?</h2>
-                            <p>Hit me up at any of the links below. </p>
-                        </header>
-                    </div>
-                </section>
+        <section class="sec-pad contact" id="contact" aria-labelledby="r-contact-h">
+            <div class="shell">
+                <h2 id="r-contact-h">Want the full papers<br>or the code? <a href="mailto:alex.elhajj88@gmail.com"><em>Reach out.</em></a></h2>
+                <div class="c-row">
+                    <a href="mailto:alex.elhajj88@gmail.com">Email →</a>
+                    <a href="https://github.com/a-elhajj" rel="noopener">GitHub →</a>
+                    <a href="/ai-portfolio.html">Portfolio →</a>
+                </div>
+            </div>
+        </section>
+
+</main>
 
         <!-- Footer -->
-            <footer id="footer">
-                <div class="container">
-                    <ul class="icons">
-                        <li><a href="mailto:alex.elhajj88@gmail.com" class="icon fa-mail-reply"></a></li>
-                        <li><a href="https://github.com/a-elhajj" class="icon fa-github"></a></li>
-                        <li><a href="https://www.linkedin.com/in/alexander-el-hajj-36154386" class="icon fa-linkedin"></a></li>
-                    </ul>
-                    <ul class="copyright">
-                        <li>&copy; 2025 Alexander El-Hajj. All rights reserved.</li>
-                    </ul>
+            <footer class="foot">
+                <div class="shell">
+                    <span>&copy; <span id="yr">2026</span> Alexander El-Hajj — Montreal, QC</span>
+                    <span><a href="mailto:alex.elhajj88@gmail.com">Email</a> · <a href="https://github.com/a-elhajj" rel="noopener">GitHub</a> · <a href="https://www.linkedin.com/in/alexander-el-hajj-36154386" rel="noopener">LinkedIn</a></span>
                 </div>
             </footer>
 
+        <script src="/assets/js/site.js" defer></script>
         <script src="/assets/js/pandemic-game-data.js" defer></script>
         <script src="/assets/js/pandemic-game.js" defer></script>
         <script src="/assets/js/stress-test.js" defer></script>

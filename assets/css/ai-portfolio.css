@@ -37,18 +37,10 @@ body > .container,
     padding: 0 !important;
     width: 100% !important;
 }
-#header {
-    background: var(--ap-void) !important;
-    border-color: var(--ap-rule) !important;
-    color: var(--ap-text) !important;
-    position: fixed !important;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-}
-#header h1 a,
-#header nav > ul > li a {
-    color: var(--ap-text) !important;
-}
+/* The shared .head uses mix-blend-mode:difference; on the portfolio's near-black
+   void background that renders light, so it stays legible without an override.
+   We only ensure it sits above the app. */
+.head { z-index: 100; }
 
 /* ========================================================================
    PAGE SHELL  — full viewport, pushed well below the fixed header

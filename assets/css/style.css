@@ -476,6 +476,19 @@
 		margin-bottom: 1em;
 	}
 
+	.hero-github-btn {
+		background-color: #1f2328;
+		color: #ffffff !important;
+	}
+
+	.hero-github-btn:hover {
+		background-color: #2b3138;
+	}
+
+	.hero-github-btn:active {
+		background-color: #15181c;
+	}
+
 	.skill-strip {
 		display: flex;
 		flex-wrap: wrap;

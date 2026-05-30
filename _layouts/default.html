@@ -9,9 +9,13 @@
         <meta name="description" content="{{ page.description | default: site.description }}">
         <meta name="keywords" content="{{ page.keywords | default: 'statistics,data science,machine learning,research,portfolio' }}">
         <title>{{ page.title }}</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Geist:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="/assets/css/skel.css" />
         <link rel="stylesheet" type="text/css" href="/assets/css/style.css" />
         <link rel="stylesheet" type="text/css" href="/assets/css/style-xlarge.css">
+        <!-- shared design system (loads after skel so its tokens win) -->
+        <link rel="stylesheet" type="text/css" href="/assets/css/site.css">
         {% if page.title == 'AI Art Portfolio' %}
         <link rel="stylesheet" type="text/css" href="/assets/css/ai-portfolio.css">
         <link rel="preload" href="/assets/images/vuze-apple-poster.jpg" as="image">
@@ -61,46 +65,40 @@
     </head>
     <body class="landing">
 
-    <!-- Header -->
-        <header id="header" class="alt">
-            <h1><strong><a href="/">Creativity</a></strong> & Automation</h1>
-            <nav id="nav">
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/research.html">Research</a></li>
-                    <li><a href="/ai-portfolio.html">Portfolio</a></li>
-                </ul>
-            </nav>
+    <a class="skip" href="#main">Skip to content</a>
+    <div class="cursor" aria-hidden="true"></div>
+
+    <!-- Header — shared design system -->
+        <header class="head">
+            <div class="shell">
+                <a class="mark" href="/"><span class="glyph">+</span> EL-HAJJ / DATA + AI</a>
+                <nav aria-label="Primary">
+                    <ul>
+                        <li><a href="/#about">About</a></li>
+                        <li><a href="/#work">Work</a></li>
+                        <li><a href="/#offline">Offline</a></li>
+                        <li class="nav-sep" aria-hidden="true"></li>
+                        <li><a class="nav-out" href="/research.html">Research <span aria-hidden="true">↗</span></a></li>
+                        <li><a class="nav-out" href="/ai-portfolio.html">Portfolio <span aria-hidden="true">↗</span></a></li>
+                    </ul>
+                </nav>
+            </div>
         </header>
 
-    <!-- Banner -->
-        <section id="banner">
-            <h2>Alexander El-Hajj</h2>
-            <p>Making everything more efficient should make everybody happier. - Geoffrey Hinton</p>
-        </section>
-        <div class="container content-container">
-
-
-
+        <main id="main">
         {{ content }}
-
-        </div><!-- /.container -->
-
+        </main>
 
 
-<footer id="footer">
-    <div class="container">
-        <ul class="icons">
-            <li><a href="mailto:alex.elhajj88@gmail.com" class="icon fa-mail-reply"></a></li>
-            <li><a href="https://github.com/a-elhajj" class="icon fa-github"></a></li>
-            <li><a href="https://www.linkedin.com/in/alexander-el-hajj-36154386" class="icon fa-linkedin"></a></li>
-        </ul>
-        <ul class="copyright">
-            <li>Copyright &copy; Alexander El-Hajj</li>
-        </ul>
+
+<footer class="foot">
+    <div class="shell">
+        <span>&copy; <span id="yr">2026</span> Alexander El-Hajj — Montreal, QC</span>
+        <span><a href="mailto:alex.elhajj88@gmail.com">Email</a> · <a href="https://github.com/a-elhajj" rel="noopener">GitHub</a> · <a href="https://www.linkedin.com/in/alexander-el-hajj-36154386" rel="noopener">LinkedIn</a></span>
     </div>
 </footer>
 
+    <script src="/assets/js/site.js" defer></script>
     </body>
 </html>
 
