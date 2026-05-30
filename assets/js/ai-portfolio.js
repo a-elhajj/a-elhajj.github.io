@@ -174,9 +174,26 @@
         var contextBox = document.createElement("div");
         contextBox.className = "ap-context-box";
 
-        function setContextText(text) {
+        function setContextText(text, links) {
             var txt = (text || section.description || "").trim();
             contextBox.innerHTML = txt ? ("<p>" + txt.replace(/\n/g, "</p><p>") + "</p>") : "";
+            if (links && links.length) {
+                var linkWrap = document.createElement("div");
+                linkWrap.className = "ap-official-links";
+                links.forEach(function (link) {
+                    if (!link || !link.url) return;
+                    var anchor = document.createElement("a");
+                    anchor.className = "ap-official-link";
+                    anchor.href = link.url;
+                    anchor.target = "_blank";
+                    anchor.rel = "noopener noreferrer";
+                    anchor.textContent = link.label || "Watch official post";
+                    linkWrap.appendChild(anchor);
+                });
+                if (linkWrap.children.length) {
+                    contextBox.appendChild(linkWrap);
+                }
+            }
         }
         content.appendChild(contextBox);
 
@@ -204,7 +221,7 @@
             var proj = section.projects[pIdx];
 
             /* Update context box with project-specific description */
-            setContextText(proj.description);
+            setContextText(proj.description, proj.officialLinks);
 
             if (proj.youtube) {
                 mainVideo.pause();
@@ -342,7 +359,8 @@
             /* Don't hijack clicks on thumb cards, close buttons, or native
                video controls — let those handle themselves. */
             if (e.target.closest(".ap-thumb-card") ||
-                e.target.closest(".ap-close-btn")) return;
+                e.target.closest(".ap-close-btn") ||
+                e.target.closest(".ap-official-link")) return;
 
             /* Don't switch panels when clicking video/YouTube player */
             if (e.target.closest("video") || e.target.closest("iframe")) {

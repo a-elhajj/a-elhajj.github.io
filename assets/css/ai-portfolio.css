@@ -200,7 +200,7 @@ body > .container,
 .ap-panel-header {
     color: var(--ap-dim);
     flex-shrink: 0;
-    font-size: 0.82rem;
+    font-size: 0.92rem;
     font-weight: 500;
     letter-spacing: 0.14em;
     margin: 0;
@@ -263,12 +263,36 @@ body > .container,
 .ap-context-box::-webkit-scrollbar-thumb { background: var(--ap-rule); border-radius: 4px; }
 .ap-context-box p {
     color: var(--ap-dim);
-    font-size: 0.8rem;
+    font-size: 0.92rem;
     font-weight: 400;
-    line-height: 1.6;
+    line-height: 1.65;
     margin: 0 0 0.8em 0;
 }
 .ap-context-box p:last-child { margin-bottom: 0; }
+.ap-official-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+.ap-official-link {
+    border: 1px solid var(--ap-rule);
+    border-radius: 999px;
+    color: var(--ap-text);
+    display: inline-flex;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    padding: 8px 14px;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+.ap-official-link:hover {
+    background: var(--ap-lift);
+    border-color: var(--ap-muted);
+    transform: translateY(-1px);
+}
 
 /* ========================================================================
    THUMBNAIL GRID
@@ -297,7 +321,7 @@ body > .container,
     border-radius: 12px;
     color: inherit;
     cursor: pointer;
-    flex: 0 0 120px;
+    flex: 0 0 140px;
     font-family: inherit;
     min-width: 0;
     overflow: hidden;
@@ -328,12 +352,12 @@ body > .container,
     width: 100%;
 }
 .ap-thumb-info {
-    padding: 8px 10px 10px;
+    padding: 10px 11px 11px;
 }
 .ap-thumb-info strong {
     color: var(--ap-text);
     display: block;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     font-weight: 500;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -342,7 +366,7 @@ body > .container,
 .ap-thumb-info span {
     color: var(--ap-muted);
     display: block;
-    font-size: 0.64rem;
+    font-size: 0.72rem;
     letter-spacing: 0.06em;
     margin-top: 3px;
     text-transform: uppercase;
@@ -383,7 +407,7 @@ body > .container,
     color: var(--ap-text);
     cursor: pointer;
     font-family: inherit;
-    font-size: 0.72rem;
+    font-size: 0.8rem;
     letter-spacing: 0.08em;
     padding: 7px 16px;
     text-transform: uppercase;
@@ -395,7 +419,7 @@ body > .container,
    ======================================================================== */
 @media (max-width: 1024px) {
     #ai-portfolio-page { padding-top: 64px; }
-    .ap-thumb-card { flex: 0 0 100px; }
+    .ap-thumb-card { flex: 0 0 120px; }
 }
 
 /* ========================================================================
@@ -417,7 +441,7 @@ body > .container,
     }
     .ap-panel.is-active { min-height: 70vh; }
     .ap-spine-title {
-        font-size: 1.1rem; padding: 22px 16px; position: relative;
+        font-size: 1.22rem; padding: 22px 16px; position: relative;
         transform: none; writing-mode: horizontal-tb;
     }
     .ap-spine-preview { display: none; }
@@ -431,7 +455,10 @@ body > .container,
     .ap-panel.is-active .ap-spine-title { opacity: 0; height: 0; padding: 0; }
     .ap-context-box { max-height: 18vh; }
     .ap-thumb-grid { max-height: none; }
-    .ap-thumb-card { flex: 0 0 90px; }
+    .ap-thumb-card { flex: 0 0 110px; }
+    .ap-context-box p { font-size: 0.9rem; }
+    .ap-thumb-info strong { font-size: 0.84rem; }
+    .ap-thumb-info span { font-size: 0.68rem; }
 }
 
 /* ========================================================================
