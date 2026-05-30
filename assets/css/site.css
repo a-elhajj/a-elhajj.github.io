@@ -159,32 +159,38 @@ section { position:relative; }
 /* ============================================================ WORK ============================================================ */
 .worklist { border-top:1px solid var(--hair); }
 .work {
-	display:grid; grid-template-columns: 3rem 1fr auto; gap: clamp(.5rem,2vw,2rem);
-	align-items:baseline; padding-block: clamp(1.6rem,3.5vh,2.6rem);
+	display:grid; grid-template-columns: 3rem minmax(0,1fr) auto; gap: clamp(.5rem,2vw,2rem);
+	align-items:start; padding-block: clamp(1.6rem,3.5vh,2.6rem);
 	border-bottom:1px solid var(--hair); position:relative; transition: padding-left .4s var(--ease);
 }
+.work .w-idx { grid-column:1; }
 .work:hover { padding-left: clamp(.5rem,2vw,1.5rem); }
 @media (prefers-reduced-motion:reduce){ .work:hover{ padding-left:0; } }
 .work .w-idx { font:700 .8rem/1.4 var(--f-mono); color:var(--muted); }
 .work:hover .w-idx { color:var(--accent); }
 .work .w-title { font-family:var(--f-display); font-weight:500; font-size: clamp(1.5rem,1rem + 3vw,3.4rem); letter-spacing:-.02em; line-height:1.02; }
 .work .w-title em { font-family:var(--f-display); font-style:italic; font-weight:400; color:var(--muted); font-size:.5em; display:block; margin-top:.5rem; letter-spacing:0; line-height:1.25; }
-.work .w-meta { text-align:right; min-width:0; }
-.work .w-stack { font:400 .72rem/1.5 var(--f-mono); color:var(--muted); letter-spacing:.04em; max-width:24ch; margin-left:auto; }
+.work .w-meta { grid-column:2; text-align:left; min-width:0; margin-top:1.1rem; }
+.work .w-stack { font:400 .72rem/1.5 var(--f-mono); color:var(--muted); letter-spacing:.04em; max-width:48ch; }
 .work .w-status { display:inline-flex; align-items:center; gap:.4rem; font:700 .66rem/1.3 var(--f-mono); letter-spacing:.16em; text-transform:uppercase; color:var(--accent); margin-bottom:.6rem; }
 .work .w-status.wip { color:var(--muted); }
 .work .w-status.wip .dot { background:var(--muted); }
 .work .w-status .dot { width:.45rem; height:.45rem; border-radius:50%; background:var(--accent); display:inline-block; flex:none; }
+/* In-flow project thumbnail: lives in the right column, always visible,
+   never overlaps the description (text is capped at 62ch on the left). */
 .work .w-media {
-	position:absolute; right:8%; top:50%; width:min(34vw,360px); aspect-ratio:16/10;
-	transform: translateY(-50%) scale(.92); opacity:0; pointer-events:none; z-index:5;
-	border:1px solid var(--ink); overflow:hidden; transition: opacity .35s var(--ease), transform .45s var(--ease);
+	grid-column:3; grid-row:1 / span 2; align-self:center; justify-self:end;
+	width:min(30vw,260px); aspect-ratio:16/10;
+	border:1px solid var(--hair); overflow:hidden; background:var(--bg);
 }
-.work .w-media img { width:100%; height:100%; object-fit:cover; }
-.work:hover .w-media { opacity:1; transform:translateY(-50%) scale(1); }
-@media (hover:none),(pointer:coarse){ .work .w-media{ display:none; } }
-@media (prefers-reduced-motion:reduce){ .work .w-media{ transition:none; transform:translateY(-50%); } }
-.work .w-detail { grid-column: 2 / -1; }
+.work .w-media img { width:100%; height:100%; object-fit:cover; display:block; }
+/* Logo variant: show the whole mark on a clean padded tile (no crop). */
+.work .w-media.is-logo { aspect-ratio:16/10; display:flex; align-items:center; justify-content:center; padding:1.1rem 1.4rem; }
+.work .w-media.is-logo img { width:auto; height:auto; max-width:100%; max-height:100%; object-fit:contain; }
+/* two logos sharing one tile (e.g. Hugging Face + Coursera) */
+.work .w-media.is-logo-row { gap:1.2rem; }
+.work .w-media.is-logo-row img { max-height:64%; }
+.work .w-detail { grid-column: 2; }
 .work .w-desc { font-family:var(--f-text); color:var(--muted); max-width:62ch; margin:.9rem 0 0; font-size:1.02rem; }
 .work .w-desc strong { color:var(--ink); font-weight:500; }
 /* metric row for projects with real numbers (GuardAI) */
@@ -200,8 +206,11 @@ section { position:relative; }
 
 @media (max-width:680px){
 	.work { grid-template-columns: 2rem 1fr; }
+	.work .w-detail { grid-column:2; }
 	.work .w-meta { grid-column:2; text-align:left; margin-top:.6rem; }
 	.work .w-stack { margin-left:0; max-width:none; }
+	/* image drops below the text so it never overlaps on narrow screens */
+	.work .w-media { grid-column:2; grid-row:auto; justify-self:start; width:100%; max-width:320px; margin-top:1rem; }
 }
 
 /* ============================================================ MANIFESTO ============================================================ */
