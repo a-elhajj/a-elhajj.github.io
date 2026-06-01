@@ -554,7 +554,7 @@
                 }
                 if (embedUrl !== currentYoutube) {
                     currentYoutube = embedUrl;
-                    mainYouTube.src = embedUrl + (embedUrl.indexOf("?") !== -1 ? "&" : "?") + "autoplay=1";
+                    mainYouTube.src = embedUrl + (embedUrl.indexOf("?") !== -1 ? "&" : "?") + "autoplay=1&mute=1&playsinline=1&rel=0";
                 }
                 currentSrc = "";
 
@@ -723,21 +723,9 @@
     });
 
     /* ------------------------------------------------------------------
-       4. INITIALISE — activate Main Work (panel 0).
-          Wait for hls.js so the very first source attaches via HLS.js
-          (otherwise the first project would fall back to native/MP4 and the
-          quality menu would be stuck on "Auto"). If the CDN is slow/blocked,
-          proceed after a short timeout — attachAdaptiveSource degrades to
-          native HLS or progressive MP4 on its own.
+       4. INITIALISE — activate Main Work immediately.
        ------------------------------------------------------------------ */
-    (function initWhenReady(waited) {
-        var hlsReady = !!(window.Hls && window.Hls.isSupported);
-        if (hlsReady || waited >= 2500) {
-            activatePanel(0);
-            return;
-        }
-        setTimeout(function () { initWhenReady(waited + 80); }, 80);
-    })(0);
+    activatePanel(0);
 
     /* ------------------------------------------------------------------
        5. GLOBAL CLICK FALLBACK — if browser blocked muted autoplay,
