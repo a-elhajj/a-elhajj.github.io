@@ -23,3 +23,6 @@ Thumbs.db
 *.docx
 *.txt
 !LICENSE.txt
+
+# Generated HLS video assets (build with scripts/build_portfolio_hls.sh)
+assets/hls/

@@ -120,8 +120,10 @@
         mainVideo.setAttribute("playsinline", "");
         mainVideo.setAttribute("muted", "");
         mainVideo.preload  = "auto";
-        mainVideo.volume   = 0;
+        mainVideo.volume   = 0.85;
         playerWrap.appendChild(mainVideo);
+        var hlsPlayer = null;
+        var selectedProjectVolume = 0.85;
 
         var mainImage = document.createElement("img");
         mainImage.className = "ap-main-player-img";
@@ -136,12 +138,318 @@
         mainYouTube.style.display = "none";
         playerWrap.appendChild(mainYouTube);
 
-        /* Auto-play whenever enough data is buffered */
-        mainVideo.addEventListener("canplay", function () {
-            if (idx === activePanelIdx) {
-                mainVideo.play().catch(function () {});
+        /* Player controls: quality selector only (volume stays native) */
+        var hud = document.createElement("div");
+        hud.className = "ap-player-hud";
+
+        var settingsBtn = document.createElement("button");
+        settingsBtn.className = "ap-hud-settings-btn";
+        settingsBtn.type = "button";
+        settingsBtn.textContent = "Quality";
+
+        var settingsPanel = document.createElement("div");
+        settingsPanel.className = "ap-hud-settings-panel";
+
+        var qualityLabel = document.createElement("label");
+        qualityLabel.className = "ap-hud-label";
+        qualityLabel.textContent = "Video Quality";
+
+        var qualitySelect = document.createElement("select");
+        qualitySelect.className = "ap-hud-select";
+        qualitySelect.setAttribute("aria-label", "Video quality");
+        qualitySelect.innerHTML = "<option value='-1'>Auto</option>";
+        qualitySelect.disabled = true;
+
+        settingsPanel.appendChild(qualityLabel);
+        settingsPanel.appendChild(qualitySelect);
+        hud.appendChild(settingsBtn);
+        hud.appendChild(settingsPanel);
+        playerWrap.appendChild(hud);
+
+        settingsBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            settingsPanel.classList.toggle("is-open");
+        });
+        playerWrap.addEventListener("click", function () {
+            settingsPanel.classList.remove("is-open");
+        });
+        settingsPanel.addEventListener("click", function (e) {
+            e.stopPropagation();
+        });
+
+        var metricState = {
+            startupAt: 0,
+            startupMs: null,
+            rebufferCount: 0,
+            seekStartAt: 0,
+            seekLastMs: null
+        };
+
+        function logMetrics(eventLabel) {
+            var startupText = (metricState.startupMs == null) ? "--" : String(metricState.startupMs);
+            var seekText = (metricState.seekLastMs == null) ? "--" : String(metricState.seekLastMs);
+            console.info("[player-metrics][" + section.id + "] " + eventLabel + " | startup_ms=" + startupText + " rebuffer_count=" + metricState.rebufferCount + " seek_ms=" + seekText);
+        }
+
+        function resetMetrics() {
+            metricState.startupAt = performance.now();
+            metricState.startupMs = null;
+            metricState.rebufferCount = 0;
+            metricState.seekStartAt = 0;
+            metricState.seekLastMs = null;
+            logMetrics("reset");
+        }
+
+        var playRequestId = 0;
+
+        function safeAutoplay() {
+            mainVideo.muted = true;
+            mainVideo.setAttribute("muted", "");
+            return mainVideo.play().catch(function () {
+                /* Browser autoplay policies may block unmuted hover-initiated play. */
+                mainVideo.muted = true;
+                return mainVideo.play().catch(function () {
+                    needsUserGesture = true;
+                });
+            });
+        }
+
+        function requestAutoplay() {
+            var requestId = ++playRequestId;
+            safeAutoplay();
+            requestAnimationFrame(function () {
+                if (requestId === playRequestId && idx === activePanelIdx && mainVideo.style.display !== "none") {
+                    safeAutoplay();
+                }
+            });
+        }
+
+        function setQualityOptions(levels) {
+            qualitySelect.innerHTML = "";
+            var autoOpt = document.createElement("option");
+            autoOpt.value = "-1";
+            autoOpt.textContent = "Auto";
+            qualitySelect.appendChild(autoOpt);
+
+            if (!levels || !levels.length) {
+                qualitySelect.disabled = true;
+                return;
+            }
+            levels.forEach(function (lv, i) {
+                var h = lv && lv.height ? lv.height + "p" : "L" + (i + 1);
+                var br = lv && lv.bitrate ? Math.round(lv.bitrate / 1000) + "k" : "";
+                var opt = document.createElement("option");
+                opt.value = String(i);
+                opt.textContent = br ? (h + " (" + br + ")") : h;
+                qualitySelect.appendChild(opt);
+            });
+            qualitySelect.disabled = false;
+            qualitySelect.value = "-1";
+        }
+
+        qualitySelect.addEventListener("change", function (e) {
+            if (!hlsPlayer) return;
+            var v = parseInt(qualitySelect.value, 10);
+            if (Number.isNaN(v)) v = -1;
+            if (v === -1) {
+                hlsPlayer.currentLevel = -1;
+                hlsPlayer.nextLevel = -1;
+                hlsPlayer.loadLevel = -1;
+            } else {
+                hlsPlayer.currentLevel = v;
+                hlsPlayer.nextLevel = v;
             }
         });
+
+        /* Auto-play whenever enough data is buffered. canplay fires after every
+           successful source swap (HLS.js or native), so this is the single
+           reliable place to (re)start playback — never call play() synchronously
+           right after loadSource(). */
+        mainVideo.addEventListener("canplay", function () {
+            if (idx === activePanelIdx && mainVideo.style.display !== "none") {
+                requestAutoplay();
+            }
+        });
+        mainVideo.addEventListener("loadeddata", function () {
+            if (idx === activePanelIdx && mainVideo.style.display !== "none") {
+                requestAutoplay();
+            }
+        });
+
+        /* The HLS.js instance is created ONCE per panel and reused. Switching
+           projects calls loadSource() — we never destroy/re-attach on hover,
+           which was the cause of the race that stalled playback. */
+        var hlsLoadedUrl = "";
+
+        function ensureHlsPlayer() {
+            if (hlsPlayer) return hlsPlayer;
+            hlsPlayer = new window.Hls({
+                lowLatencyMode: false,
+                enableWorker: true,
+                backBufferLength: 30,
+                capLevelToPlayerSize: true,
+                maxBufferLength: 20,
+                maxMaxBufferLength: 40,
+                maxBufferHole: 0.5,
+                abrEwmaFastVoD: 3.0,
+                abrEwmaSlowVoD: 9.0
+            });
+            hlsPlayer.on(window.Hls.Events.ERROR, function (_, data) {
+                if (!data || !data.fatal) return;
+                if (data.type === window.Hls.ErrorTypes.NETWORK_ERROR) {
+                    hlsPlayer.startLoad();
+                    return;
+                }
+                if (data.type === window.Hls.ErrorTypes.MEDIA_ERROR) {
+                    hlsPlayer.recoverMediaError();
+                    return;
+                }
+                /* Unrecoverable: tear down and fall back to progressive MP4. */
+                destroyHlsPlayer();
+                var fb = currentFallbackMp4;
+                if (fb) {
+                    mainVideo.src = fb;
+                    mainVideo.load();
+                    requestAutoplay();
+                }
+            });
+            hlsPlayer.on(window.Hls.Events.MANIFEST_PARSED, function (_, data) {
+                setQualityOptions((data && data.levels) || hlsPlayer.levels || []);
+            });
+            hlsPlayer.attachMedia(mainVideo);
+            return hlsPlayer;
+        }
+
+        var currentFallbackMp4 = "";
+
+        function destroyHlsPlayer() {
+            if (hlsPlayer) {
+                try { hlsPlayer.destroy(); } catch (e) {}
+                hlsPlayer = null;
+            }
+            hlsLoadedUrl = "";
+            setQualityOptions([]);
+        }
+
+        function resetVideoSource() {
+            clearTimeout(stallRetryTimer);
+            mainVideo.pause();
+            mainVideo.removeAttribute("src");
+            mainVideo.load();
+            playRequestId += 1;
+        }
+
+        function attachAdaptiveSource(hlsUrl, fallbackMp4) {
+            currentFallbackMp4 = fallbackMp4 || "";
+            /* Hover playback should prioritize instant reliability. These MP4s are
+               fast-start and range-served; HLS/MSE is kept only for projects that
+               do not have a progressive fallback. */
+            if (fallbackMp4) {
+                destroyHlsPlayer();
+                setQualityOptions([]);
+                if (normaliseSrc(mainVideo.currentSrc || mainVideo.src) !== normaliseSrc(fallbackMp4)) {
+                    mainVideo.src = fallbackMp4;
+                    mainVideo.load();
+                }
+                return;
+            }
+
+            var hasHlsJs = !!(window.Hls && window.Hls.isSupported && window.Hls.isSupported());
+            var useNativeHls = mainVideo.canPlayType("application/vnd.apple.mpegurl");
+
+            if (hlsUrl && hasHlsJs) {
+                ensureHlsPlayer();
+                if (hlsLoadedUrl !== hlsUrl) {
+                    hlsLoadedUrl = hlsUrl;
+                    setQualityOptions([]);              /* reset until new manifest parses */
+                    hlsPlayer.loadSource(hlsUrl);       /* swap source on the SAME instance */
+                }
+                return;
+            }
+            /* No HLS.js (e.g. Safari) — use native HLS or progressive MP4. */
+            destroyHlsPlayer();
+            if (hlsUrl && useNativeHls) {
+                qualitySelect.innerHTML = "<option value='-1'>Auto (device)</option>";
+                qualitySelect.disabled = true;
+                if (mainVideo.src !== hlsUrl) { mainVideo.src = hlsUrl; mainVideo.load(); }
+                return;
+            }
+            if (fallbackMp4) {
+                setQualityOptions([]);
+                if (normaliseSrc(mainVideo.src) !== normaliseSrc(fallbackMp4)) {
+                    mainVideo.src = fallbackMp4;
+                    mainVideo.load();
+                }
+            }
+        }
+
+        /* Recover from transient stalls during network/decode hiccups */
+        var stallRetryTimer = null;
+        function scheduleRetryPlay() {
+            clearTimeout(stallRetryTimer);
+            stallRetryTimer = setTimeout(function () {
+                if (idx !== activePanelIdx || mainVideo.style.display === "none") return;
+                requestAutoplay();
+            }, 220);
+        }
+        mainVideo.addEventListener("waiting", scheduleRetryPlay);
+        mainVideo.addEventListener("stalled", scheduleRetryPlay);
+        mainVideo.addEventListener("waiting", function () {
+            if (idx === activePanelIdx && mainVideo.style.display !== "none") {
+                metricState.rebufferCount += 1;
+                logMetrics("waiting");
+            }
+        });
+        mainVideo.addEventListener("playing", function () {
+            if (metricState.startupMs == null && metricState.startupAt > 0) {
+                metricState.startupMs = Math.max(0, Math.round(performance.now() - metricState.startupAt));
+                logMetrics("playing");
+            }
+        });
+        mainVideo.addEventListener("seeking", function () {
+            metricState.seekStartAt = performance.now();
+        });
+        mainVideo.addEventListener("seeked", function () {
+            if (idx === activePanelIdx && mainVideo.style.display !== "none") {
+                if (metricState.seekStartAt > 0) {
+                    metricState.seekLastMs = Math.max(0, Math.round(performance.now() - metricState.seekStartAt));
+                    logMetrics("seeked");
+                }
+                requestAutoplay();
+            }
+        });
+
+        /* Playback watchdog for silent pause/stall edge cases */
+        var lastTime = 0;
+        var lastAdvanceAt = performance.now();
+        mainVideo.addEventListener("timeupdate", function () {
+            if (mainVideo.currentTime > lastTime + 0.001) {
+                lastAdvanceAt = performance.now();
+                lastTime = mainVideo.currentTime;
+            }
+        });
+        setInterval(function () {
+            if (idx !== activePanelIdx) return;
+            if (mainVideo.style.display === "none") return;   /* image/youtube project active */
+            if (mainVideo.ended) return;
+            /* "Always play": if the active video is paused for any reason — including
+               mid-buffer (readyState < 2) after a source swap — nudge it. Calling
+               play() while buffering is harmless; it resumes once data arrives.
+               This is the catch-all that fixes the "stops after switching" bug even
+               if a canplay/loadeddata event was missed during a rapid hover swap. */
+            if (mainVideo.paused) {
+                requestAutoplay();
+                logMetrics("watchdog-resume");
+                return;
+            }
+            /* Detected playing-but-not-advancing (silent decode stall). */
+            var stuckFor = performance.now() - lastAdvanceAt;
+            if (mainVideo.readyState >= 2 && stuckFor > 1600) {
+                mainVideo.currentTime = mainVideo.currentTime;  /* kick the decoder */
+                requestAutoplay();
+                logMetrics("watchdog-unstick");
+            }
+        }, 1000);
 
         /* Portrait detection: extend player down for portrait videos */
         mainVideo.addEventListener("loadedmetadata", function () {
@@ -201,7 +509,7 @@
         var thumbGrid = document.createElement("div");
         thumbGrid.className = "ap-thumb-grid";
 
-        var activeProjectIdx = 0;
+        var activeProjectIdx = -1;
         var thumbCards = [];
         var currentSrc = "";
         var currentYoutube = "";
@@ -217,18 +525,24 @@
 
         function selectProject(pIdx) {
             if (pIdx < 0 || pIdx >= section.projects.length) return;
-            activeProjectIdx = pIdx;
             var proj = section.projects[pIdx];
+            activeProjectIdx = pIdx;
+
+            /* Always close the lightbox when selection changes */
+            if (lightbox) {
+                lightbox.classList.remove("is-open");
+            }
 
             /* Update context box with project-specific description */
             setContextText(proj.description, proj.officialLinks);
 
             if (proj.youtube) {
-                mainVideo.pause();
-                mainVideo.removeAttribute("src");
+                destroyHlsPlayer();
+                resetVideoSource();
                 mainVideo.style.display = "none";
                 mainImage.style.display = "none";
                 mainYouTube.style.display = "block";
+                hud.style.display = "none";
 
                 var embedUrl = proj.youtube;
                 if (embedUrl.indexOf("/embed/") === -1 && embedUrl.indexOf("youtube.com/watch") !== -1) {
@@ -249,28 +563,35 @@
                 mainYouTube.style.display = "none";
                 mainImage.style.display = "none";
                 mainVideo.style.display = "";
+                hud.style.display = "";
+                resetMetrics();
 
-                /* Historical reenactment: 50% volume */
-                mainVideo.volume = (proj.video.indexOf("historical-reenactment") !== -1) ? 0.5 : 1;
+                /* Unified default level + optional per-project override */
+                var projectVolume = (typeof proj.volume === "number") ? proj.volume : 0.85;
+                selectedProjectVolume = Math.max(0, Math.min(1, projectVolume));
+                mainVideo.volume = selectedProjectVolume;
 
                 /* Poster shows instantly while video loads */
                 mainVideo.poster = proj.poster || "";
-                currentSrc = proj.video;
-                mainVideo.src = proj.video;
-                mainVideo.play().catch(function (err) {
-                    needsUserGesture = true;
-                });
+                currentSrc = proj.hls || proj.video;
+                /* attachAdaptiveSource is idempotent: it no-ops if the source is
+                   unchanged, swaps source on the existing HLS instance otherwise.
+                   Playback (re)starts from the canplay/loadeddata handlers — we do
+                   NOT call play() synchronously here, which was the stall race. */
+                attachAdaptiveSource(proj.hls || "", proj.video);
+                requestAutoplay();
                 currentYoutube = "";
 
             } else if (proj.image) {
-                mainVideo.pause();
-                mainVideo.removeAttribute("src");
+                destroyHlsPlayer();
+                resetVideoSource();
                 mainVideo.style.display = "none";
                 mainYouTube.src = "";
                 mainYouTube.style.display = "none";
                 mainImage.src = proj.image;
                 mainImage.alt = proj.title || "";
                 mainImage.style.display = "";
+                hud.style.display = "none";
                 currentSrc = "";
                 currentYoutube = "";
             }
@@ -327,8 +648,11 @@
             thumbGrid.appendChild(card);
             thumbCards.push(card);
 
-            /* Hover → switch main player to this project */
-            card.addEventListener("mouseenter", function () {
+            /* Hover/focus → switch main player to this project */
+            card.addEventListener("pointerenter", function () {
+                selectProject(pIdx);
+            });
+            card.addEventListener("focus", function () {
                 selectProject(pIdx);
             });
 
@@ -366,7 +690,7 @@
             if (e.target.closest("video") || e.target.closest("iframe")) {
                 if (needsUserGesture) {
                     needsUserGesture = false;
-                    mainVideo.play().catch(function () {});
+                    requestAutoplay();
                 }
                 return;
             }
@@ -381,11 +705,13 @@
             idx: idx,
             onActivate: function (isActive) {
                 if (isActive) {
+                    if (activeProjectIdx < 0) activeProjectIdx = 0;
                     selectProject(activeProjectIdx);
                 } else {
-                    mainVideo.pause();
-                    mainVideo.removeAttribute("src");
+                    destroyHlsPlayer();
+                    resetVideoSource();
                     mainYouTube.src = "";
+                    hud.style.display = "none";
                     currentSrc = "";
                     currentYoutube = "";
                 }
@@ -397,9 +723,21 @@
     });
 
     /* ------------------------------------------------------------------
-       4. INITIALISE — activate Main Work (panel 0)
+       4. INITIALISE — activate Main Work (panel 0).
+          Wait for hls.js so the very first source attaches via HLS.js
+          (otherwise the first project would fall back to native/MP4 and the
+          quality menu would be stuck on "Auto"). If the CDN is slow/blocked,
+          proceed after a short timeout — attachAdaptiveSource degrades to
+          native HLS or progressive MP4 on its own.
        ------------------------------------------------------------------ */
-    activatePanel(0);
+    (function initWhenReady(waited) {
+        var hlsReady = !!(window.Hls && window.Hls.isSupported);
+        if (hlsReady || waited >= 2500) {
+            activatePanel(0);
+            return;
+        }
+        setTimeout(function () { initWhenReady(waited + 80); }, 80);
+    })(0);
 
     /* ------------------------------------------------------------------
        5. GLOBAL CLICK FALLBACK — if browser blocked muted autoplay,

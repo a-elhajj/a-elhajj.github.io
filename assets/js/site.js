@@ -61,4 +61,108 @@
 			})();
 		});
 	}
+
+	/* ---- Offline floating story capsule ---- */
+	var offSection = document.getElementById("offline");
+	var offFloat = document.getElementById("off-float");
+	if (offSection && offFloat) {
+		var offCards = offSection.querySelectorAll(".off-card[data-story]");
+		var offHead = offFloat.querySelector(".off-float-head");
+		var offTitle = offFloat.querySelector(".off-float-title");
+		var offCopy = offFloat.querySelector(".off-float-copy");
+		var activeCard = null;
+		var ticking = false;
+		var fx = 0, fy = 0, tx = 0, ty = 0;
+
+		function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+		function anchorForCard(card) {
+			var r = card.getBoundingClientRect();
+			var panelW = offFloat.offsetWidth || 340;
+			var panelH = offFloat.offsetHeight || 190;
+			var rightX = r.right + 22;
+			var leftX = r.left - panelW - 22;
+			var hasRight = (innerWidth - r.right) > (panelW + 28);
+			var x = hasRight ? rightX : leftX;
+			var y = r.top + (r.height * 0.24);
+			x = clamp(x, 14, innerWidth - panelW - 14);
+			y = clamp(y, 14, innerHeight - panelH - 14);
+			return { x: x, y: y };
+		}
+
+		function render() {
+			if (!ticking) return;
+			fx += (tx - fx) * 0.16;
+			fy += (ty - fy) * 0.16;
+			offFloat.style.transform = "translate3d(" + Math.round(fx) + "px," + Math.round(fy) + "px,0)";
+			requestAnimationFrame(render);
+		}
+
+		function showStory(card, evt) {
+			activeCard = card;
+			offCards.forEach(function(c){ c.classList.toggle("is-story-active", c === card); });
+			if (offHead) offHead.textContent = "Story";
+			if (offTitle) offTitle.textContent = card.getAttribute("data-label") || "Offline";
+			if (offCopy) offCopy.textContent = card.getAttribute("data-story") || "";
+			offFloat.classList.add("is-live");
+			offFloat.setAttribute("aria-hidden", "false");
+
+			var a = anchorForCard(card);
+			fx = a.x;
+			fy = a.y;
+			tx = a.x;
+			ty = a.y;
+			offFloat.style.transform = "translate3d(" + Math.round(fx) + "px," + Math.round(fy) + "px,0)";
+
+			if (evt && evt.clientX && evt.clientY) {
+				var panelW = offFloat.offsetWidth || 340;
+				var panelH = offFloat.offsetHeight || 190;
+				tx = clamp(evt.clientX + 28, 14, innerWidth - panelW - 14);
+				ty = clamp(evt.clientY - panelH * 0.42, 14, innerHeight - panelH - 14);
+			}
+
+			if (!ticking) {
+				ticking = true;
+				requestAnimationFrame(render);
+			}
+		}
+
+		function moveStory(evt) {
+			if (!activeCard || !offFloat.classList.contains("is-live")) return;
+			var panelW = offFloat.offsetWidth || 340;
+			var panelH = offFloat.offsetHeight || 190;
+			tx = clamp(evt.clientX + 24, 14, innerWidth - panelW - 14);
+			ty = clamp(evt.clientY - panelH * 0.42, 14, innerHeight - panelH - 14);
+		}
+
+		function hideStory() {
+			activeCard = null;
+			offCards.forEach(function(c){ c.classList.remove("is-story-active"); });
+			offFloat.classList.remove("is-live");
+			offFloat.setAttribute("aria-hidden", "true");
+			ticking = false;
+		}
+
+		if (!coarse) {
+			offCards.forEach(function(card){
+				card.addEventListener("mouseenter", function(e){ showStory(card, e); });
+				card.addEventListener("mousemove", moveStory);
+				card.addEventListener("mouseleave", hideStory);
+			});
+
+			addEventListener("scroll", function(){
+				if (!activeCard || !offFloat.classList.contains("is-live")) return;
+				var a = anchorForCard(activeCard);
+				tx = a.x;
+				ty = a.y;
+			}, { passive:true });
+
+			addEventListener("resize", function(){
+				if (!activeCard || !offFloat.classList.contains("is-live")) return;
+				var a = anchorForCard(activeCard);
+				tx = a.x;
+				ty = a.y;
+			});
+		}
+	}
 })();
