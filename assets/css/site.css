@@ -73,9 +73,127 @@ a { color: inherit; text-decoration: none; }
 .head nav ul { display:flex; gap:clamp(1rem,3vw,2.4rem); list-style:none; margin:0; padding:0; flex-wrap:wrap; }
 .head nav a { font:400 .78rem/1 var(--f-mono); letter-spacing:.12em; text-transform:uppercase; }
 .head nav a:hover { text-decoration:line-through; text-decoration-color:var(--accent); }
+.head nav a.portfolio-fire {
+	display: inline-block;
+	position: relative;
+	isolation: isolate;
+	color: transparent;
+	background:
+		radial-gradient(circle at 18% 78%, #fff7b1 0 7%, transparent 18%),
+		radial-gradient(circle at 46% 88%, #ffffff 0 4%, transparent 15%),
+		radial-gradient(circle at 78% 72%, #ffd166 0 8%, transparent 20%),
+		linear-gradient(8deg,
+			#2b0500 0%,
+			#6d1200 10%,
+			#c22500 22%,
+			#ff5a00 35%,
+			#ffb000 49%,
+			#fff3a3 58%,
+			#ff7a00 68%,
+			#b51b00 82%,
+			#3b0600 100%);
+	background-size: 180% 260%, 220% 240%, 170% 220%, 260% 260%;
+	background-position: 10% 82%, 45% 96%, 82% 78%, 0% 65%;
+	-webkit-background-clip: text;
+	background-clip: text;
+	text-shadow:
+		0 0 .28rem rgba(255, 65, 0, .72),
+		0 0 .72rem rgba(255, 151, 0, .36),
+		0 -.04rem .18rem rgba(255, 244, 179, .56);
+	filter: saturate(1.28) contrast(1.08);
+	animation: portfolio-fire-flow 2.8s var(--ease) infinite alternate;
+	transition: filter .18s var(--ease-out), text-shadow .18s var(--ease-out), transform .18s var(--ease-out);
+}
+.head nav a.nav-out.portfolio-fire span {
+	color: transparent;
+	background: inherit;
+	-webkit-background-clip: text;
+	background-clip: text;
+	mix-blend-mode: normal;
+	font-size: .85em;
+	text-shadow: inherit;
+}
+.head nav a.portfolio-fire::after {
+	content: attr(data-fire);
+	position: absolute;
+	inset: 0;
+	color: transparent;
+	background:
+		linear-gradient(96deg,
+			transparent 0 8%,
+			rgba(255,255,255,.9) 12%,
+			rgba(255,214,82,.78) 15%,
+			transparent 24% 45%,
+			rgba(255,90,0,.72) 52%,
+			transparent 64% 100%);
+	background-size: 230% 100%;
+	-webkit-background-clip: text;
+	background-clip: text;
+	opacity: .72;
+	pointer-events: none;
+	animation: portfolio-fire-lick 1.7s linear infinite;
+}
+.head nav a.portfolio-fire:hover,
+.head nav a.portfolio-fire:focus-visible {
+	text-decoration: none;
+	filter: saturate(1.72) contrast(1.2) brightness(1.15);
+	text-shadow:
+		0 0 .42rem rgba(255, 40, 0, .96),
+		0 0 1.1rem rgba(255, 124, 0, .62),
+		0 -.08rem .28rem rgba(255, 250, 205, .82);
+	transform: translateY(-.04em) scale(1.035);
+	animation-duration: .82s;
+}
+.head nav a.portfolio-fire:hover::after,
+.head nav a.portfolio-fire:focus-visible::after {
+	opacity: 1;
+	animation-duration: .38s;
+}
+.head nav a.portfolio-fire:active {
+	filter: saturate(2) contrast(1.28) brightness(1.24);
+	transform: translateY(-.05em) scale(1.055);
+	text-shadow:
+		0 0 .55rem rgba(255, 18, 0, 1),
+		0 0 1.35rem rgba(255, 144, 0, .76),
+		0 -.1rem .34rem rgba(255, 255, 220, .95);
+	animation-duration: .28s;
+}
 /* small separator between in-page anchors and the "leaves the page" links */
 .head nav .nav-sep { width:1px; height:.9em; background:currentColor; opacity:.35; align-self:center; }
 .head nav a.nav-out span { color:var(--accent); mix-blend-mode:normal; font-size:.85em; }
+@keyframes portfolio-fire-flow {
+	0% {
+		background-position: 6% 92%, 42% 100%, 82% 85%, 0% 78%;
+		text-shadow:
+			0 0 .22rem rgba(255, 43, 0, .68),
+			0 0 .66rem rgba(255, 122, 0, .3),
+			0 -.04rem .15rem rgba(255, 246, 190, .5);
+	}
+	45% {
+		background-position: 20% 66%, 50% 78%, 70% 52%, 56% 34%;
+		text-shadow:
+			0 0 .34rem rgba(255, 95, 0, .82),
+			0 0 .86rem rgba(255, 180, 0, .42),
+			0 -.06rem .22rem rgba(255, 250, 210, .7);
+	}
+	100% {
+		background-position: 34% 38%, 55% 58%, 90% 44%, 100% 12%;
+		text-shadow:
+			0 0 .26rem rgba(255, 30, 0, .74),
+			0 0 .78rem rgba(255, 118, 0, .35),
+			0 -.05rem .19rem rgba(255, 236, 140, .62);
+	}
+}
+@keyframes portfolio-fire-lick {
+	from { background-position: 120% 0; transform: translateY(.035em); }
+	to { background-position: -120% 0; transform: translateY(-.035em); }
+}
+@media (prefers-reduced-motion: reduce) {
+	.head nav a.portfolio-fire,
+	.head nav a.portfolio-fire::after {
+		animation: none;
+	}
+}
 @media (max-width:680px){ .head nav .nav-sep { display:none; } }
 @media (max-width:560px){ .head nav { display:none; } }   /* keep tiny screens clean; brand still links home */
 
